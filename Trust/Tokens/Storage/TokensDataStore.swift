@@ -57,8 +57,8 @@ class TokensDataStore {
                 realm.delete(token)
             }
         }
-        let initialCoins = nativeCoin()
 
+        let initialCoins = nativeCoin() + bmdCoins()
         for token in initialCoins {
             if let _ = getToken(for: token.contractAddress) {
             } else {
@@ -101,6 +101,35 @@ class TokensDataStore {
                 order: coin.rawValue
             )
         }
+    }
+
+    private func bmdCoins() -> [TokenObject] {
+        // SBMD
+        let sbmd = TokenObject(
+            contract: "0xE9Fa8C7f14207E9354f5d65207A410Fc6AFed49F",
+            name: "SAFT-BlockMed",
+            coin: .ethereum,
+            type: .ERC20,
+            symbol: "SBMD",
+            decimals: 18,
+            value: "0",
+            isCustom: true,
+            isDisabled: false
+        )
+
+        // BMD
+        let bmd = TokenObject(
+            contract: "0x686205e2E139Cf7F4fE0e11De7C1F0F11770Fe94",
+            name: "Utility-BlockMed",
+            coin: .ethereum,
+            type: .ERC20,
+            symbol: "BMD",
+            decimals: 18,
+            value: "0",
+            isCustom: true,
+            isDisabled: false
+        )
+        return [sbmd, bmd]
     }
 
     static func token(for server: RPCServer) -> TokenObject {
