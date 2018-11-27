@@ -12,6 +12,7 @@ final class BrowserNavigationBar: UINavigationBar {
     let moreButton = UIButton()
     let homeButton = UIButton()
     let backButton = UIButton()
+    private let titleLabel = UILabel()
     weak var browserDelegate: BrowserNavigationBarDelegate?
 
     private struct Layout {
@@ -39,10 +40,12 @@ final class BrowserNavigationBar: UINavigationBar {
         textField.setContentHuggingPriority(.required, for: .horizontal)
         textField.placeholder = NSLocalizedString("browser.url.textfield.placeholder", value: "Search or enter website url", comment: "")
         textField.keyboardType = .webSearch
+        textField.alpha = 0.0
 
         moreButton.translatesAutoresizingMaskIntoConstraints = false
         moreButton.setImage(R.image.toolbarMenu(), for: .normal)
         moreButton.addTarget(self, action: #selector(moreAction(_:)), for: .touchUpInside)
+        moreButton.alpha = 0.0
 
         homeButton.translatesAutoresizingMaskIntoConstraints = false
         homeButton.setImage(R.image.browserHome(), for: .normal)
@@ -51,6 +54,22 @@ final class BrowserNavigationBar: UINavigationBar {
         backButton.translatesAutoresizingMaskIntoConstraints = false
         backButton.setImage(R.image.toolbarBack(), for: .normal)
         backButton.addTarget(self, action: #selector(goBackAction), for: .touchUpInside)
+
+        titleLabel.frame = .zero
+        titleLabel.backgroundColor = .white
+        titleLabel.text = "BLOCKMED"
+        titleLabel.textAlignment = .center
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.autoresizingMask = [.flexibleWidth]
+
+        addSubview(titleLabel)
+
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+        ])
 
         let stackView = UIStackView(arrangedSubviews: [
             homeButton,

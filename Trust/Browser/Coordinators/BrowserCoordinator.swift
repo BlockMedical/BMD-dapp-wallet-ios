@@ -69,7 +69,7 @@ final class BrowserCoordinator: NSObject, Coordinator {
 
     weak var delegate: BrowserCoordinatorDelegate?
 
-    var enableToolbar: Bool = true {
+    var enableToolbar: Bool = false {
         didSet {
             navigationController.isToolbarHidden = !enableToolbar
         }
@@ -149,12 +149,7 @@ final class BrowserCoordinator: NSObject, Coordinator {
     }
 
     func handleToolbar(for url: URL) {
-        let isToolbarHidden = url.absoluteString != Constants.dappsBrowserURL
-        navigationController.isToolbarHidden = isToolbarHidden
-
-        if isToolbarHidden {
-            rootViewController.select(viewType: .browser)
-        }
+        navigationController.isToolbarHidden = true
     }
 
     func signMessage(with type: SignMesageType, account: Account, callbackID: Int) {
@@ -260,7 +255,6 @@ extension BrowserCoordinator: BrowserViewControllerDelegate {
         case .navigationAction(let navAction):
             switch navAction {
             case .home:
-                enableToolbar = true
                 rootViewController.select(viewType: .browser)
                 rootViewController.browserViewController.goHome()
             case .more(let sender):
