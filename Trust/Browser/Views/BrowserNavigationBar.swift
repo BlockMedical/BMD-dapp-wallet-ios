@@ -12,7 +12,7 @@ final class BrowserNavigationBar: UINavigationBar {
     let moreButton = UIButton()
     let homeButton = UIButton()
     let backButton = UIButton()
-    private let titleLabel = UILabel()
+    let titleLabel = UILabel()
     weak var browserDelegate: BrowserNavigationBarDelegate?
 
     private struct Layout {
@@ -57,7 +57,6 @@ final class BrowserNavigationBar: UINavigationBar {
 
         titleLabel.frame = .zero
         titleLabel.backgroundColor = .white
-        titleLabel.text = "BLOCKMED"
         titleLabel.textAlignment = .center
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.autoresizingMask = [.flexibleWidth]

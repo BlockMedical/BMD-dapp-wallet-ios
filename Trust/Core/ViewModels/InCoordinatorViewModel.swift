@@ -22,7 +22,7 @@ struct InCoordinatorViewModel {
 
     var browserBarItem: UITabBarItem {
         return UITabBarItem(
-            title: "BLOCKMED",
+            title: "BlockMed",
             image: R.image.dapps_icon(),
             selectedImage: nil
         )

@@ -90,6 +90,11 @@ final class BrowserCoordinator: NSObject, Coordinator {
         type: BrowserCoordinatorType
     ) {
         self.navigationController = NavigationController(navigationBarClass: BrowserNavigationBar.self, toolbarClass: nil)
+
+        if let navigationBar = self.navigationController.navigationBar as? BrowserNavigationBar {
+            navigationBar.titleLabel.text = type == .blockMed ? "BlockMed" : "Mobile App"
+        }
+
         self.session = session
         self.keystore = keystore
         self.sharedRealm = sharedRealm
