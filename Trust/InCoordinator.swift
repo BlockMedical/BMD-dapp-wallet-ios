@@ -73,8 +73,19 @@ class InCoordinator: Coordinator {
     let navigator: Navigator
     weak var delegate: InCoordinatorDelegate?
     private var pendingTransactionsObserver: NotificationToken?
-    var browserCoordinator: BrowserCoordinator? {
-        return self.coordinators.compactMap { $0 as? BrowserCoordinator }.first
+    private var browserCoordinator: BrowserCoordinator? {
+        return self.coordinators
+            .compactMap { $0 as? BrowserCoordinator }
+            .filter { (coordinator) -> Bool in
+                return coordinator.type == .blockMed
+            }.first
+    }
+    private var mobileAppCoordinator: BrowserCoordinator? {
+        return self.coordinators
+            .compactMap { $0 as? BrowserCoordinator }
+            .filter { (coordinator) -> Bool in
+                return coordinator.type == .mobileApp
+            }.first
     }
     var settingsCoordinator: SettingsCoordinator? {
         return self.coordinators.compactMap { $0 as? SettingsCoordinator }.first
@@ -151,11 +162,17 @@ class InCoordinator: Coordinator {
         let tabBarController = TabBarController()
         tabBarController.tabBar.isTranslucent = false
 
-        let browserCoordinator = BrowserCoordinator(session: session, keystore: keystore, navigator: navigator, sharedRealm: sharedRealm)
+        let browserCoordinator = BrowserCoordinator(session: session, keystore: keystore, navigator: navigator, sharedRealm: sharedRealm, type: .blockMed)
         browserCoordinator.delegate = self
         browserCoordinator.start()
         browserCoordinator.rootViewController.tabBarItem = viewModel.browserBarItem
         addCoordinator(browserCoordinator)
+
+        let mobileAppCoordinator = BrowserCoordinator(session: session, keystore: keystore, navigator: navigator, sharedRealm: sharedRealm, type: .mobileApp)
+        mobileAppCoordinator.delegate = self
+        mobileAppCoordinator.start()
+        mobileAppCoordinator.rootViewController.tabBarItem = viewModel.mobileAppBarItem
+        addCoordinator(mobileAppCoordinator)
 
         let walletCoordinator = TokensCoordinator(
             session: session,
@@ -182,6 +199,7 @@ class InCoordinator: Coordinator {
 
         tabBarController.viewControllers = [
             browserCoordinator.navigationController.childNavigationController,
+            mobileAppCoordinator.navigationController.childNavigationController,
             walletCoordinator.navigationController.childNavigationController,
             settingsCoordinator.navigationController.childNavigationController,
         ]
@@ -212,6 +230,10 @@ class InCoordinator: Coordinator {
         case .browser(let url):
             if let url = url {
                 browserCoordinator?.openURL(url)
+            }
+        case .mobileApp(let url):
+            if let url = url {
+                mobileAppCoordinator?.openURL(url)
             }
         case .wallet(let action):
             switch action {

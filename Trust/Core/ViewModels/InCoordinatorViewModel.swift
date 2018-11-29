@@ -28,6 +28,14 @@ struct InCoordinatorViewModel {
         )
     }
 
+    var mobileAppBarItem: UITabBarItem {
+        return UITabBarItem(
+            title: "Mobile App",
+            image: R.image.dapps_icon(),
+            selectedImage: nil
+        )
+    }
+
     var walletBarItem: UITabBarItem {
         return UITabBarItem(
             title: NSLocalizedString("wallet.navigation.title", value: "Wallet", comment: ""),

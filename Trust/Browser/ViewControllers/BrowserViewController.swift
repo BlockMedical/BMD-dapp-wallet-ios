@@ -26,6 +26,7 @@ final class BrowserViewController: UIViewController {
     private var myContext = 0
     let account: WalletInfo
     let sessionConfig: Config
+    let homeURL: String
 
     private struct Keys {
         static let estimatedProgress = "estimatedProgress"
@@ -86,10 +87,12 @@ final class BrowserViewController: UIViewController {
     init(
         account: WalletInfo,
         config: Config,
+        homeURL: String,
         server: RPCServer
     ) {
         self.account = account
         self.sessionConfig = config
+        self.homeURL = homeURL
         self.server = server
 
         super.init(nibName: nil, bundle: nil)
@@ -157,7 +160,7 @@ final class BrowserViewController: UIViewController {
     }
 
     func goHome() {
-        guard let url = URL(string: Constants.dappsBrowserURL) else { return }
+        guard let url = URL(string: homeURL) else { return }
         var request = URLRequest(url: url)
         request.cachePolicy = .returnCacheDataElseLoad
         hideErrorView()

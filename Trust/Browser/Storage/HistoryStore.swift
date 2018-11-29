@@ -18,6 +18,7 @@ final class  HistoryStore {
     lazy var ignoreSet: Set<String> = {
         let set = Set<String>([
             Constants.dappsBrowserURL,
+            Constants.dappsMobileAppURL
         ])
         return set
     }()

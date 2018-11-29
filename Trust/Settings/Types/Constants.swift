@@ -18,6 +18,7 @@ public struct Constants {
     public static let supportEmail = "support@trustwalletapp.com"
 
     public static let dappsBrowserURL = "https://www.wix.com/dashboard/e3c1c01d-0f58-4b62-9c45-6dd811803faf/home"
+    public static let dappsMobileAppURL = "http://ipfs.blcksync.info:3000"
     public static let dappsOpenSea = "https://opensea.io"
     public static let dappsRinkebyOpenSea = "https://rinkeby.opensea.io"
 
