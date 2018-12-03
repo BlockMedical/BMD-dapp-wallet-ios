@@ -18,7 +18,7 @@ public struct Constants {
     public static let supportEmail = "support@trustwalletapp.com"
 
     public static let dappsBrowserURL = "http://www.blockmed.ai"
-    public static let dappsMobileAppURL = "http://ipfs.blcksync.info:3000"
+    public static let dappsMobileAppURL = "http://localhost:3000"
     public static let dappsOpenSea = "https://opensea.io"
     public static let dappsRinkebyOpenSea = "https://rinkeby.opensea.io"
 

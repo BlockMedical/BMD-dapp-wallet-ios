@@ -57,6 +57,7 @@ PODS:
     - TrustCore
   - TrustWeb3Provider (0.1.7)
   - URLNavigator (2.0.6)
+  - WebViewJavascriptBridge (6.0.3)
 
 DEPENDENCIES:
   - APIKit
@@ -83,6 +84,7 @@ DEPENDENCIES:
   - TrustWalletSDK (from `https://github.com/TrustWallet/TrustSDK-iOS`, branch `master`)
   - TrustWeb3Provider (from `https://github.com/TrustWallet/trust-web3-provider`, commit `f4e0ebb1b8fa4812637babe85ef975d116543dfd`)
   - URLNavigator
+  - WebViewJavascriptBridge (~> 6.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -109,6 +111,7 @@ SPEC REPOS:
     - SwiftLint
     - TrezorCrypto
     - URLNavigator
+    - WebViewJavascriptBridge
 
 EXTERNAL SOURCES:
   JSONRPCKit:
@@ -179,7 +182,8 @@ SPEC CHECKSUMS:
   TrustWalletSDK: 12451433bda69bc07e5a27408449b1f4692879e4
   TrustWeb3Provider: 50fa391bdf170feb43dd4419992931510a5751d8
   URLNavigator: 2357a32f3b3787b748bf87deb927761f8b0f7f53
+  WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
 
-PODFILE CHECKSUM: 30a4ddccde066176b63c4f1326409df048b754a1
+PODFILE CHECKSUM: 208349ed09f00871c2e8a2007c689a58cc76407d
 
 COCOAPODS: 1.5.3

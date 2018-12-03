@@ -29,6 +29,7 @@ target 'Trust' do
   pod 'TrustWeb3Provider', :git=>'https://github.com/TrustWallet/trust-web3-provider', :commit=>'f4e0ebb1b8fa4812637babe85ef975d116543dfd'
   pod 'URLNavigator'
   pod 'TrustWalletSDK', :git=>'https://github.com/TrustWallet/TrustSDK-iOS', :branch=>'master'
+  pod 'WebViewJavascriptBridge', '~> 6.0'
 
   target 'TrustTests' do
     inherit! :search_paths
