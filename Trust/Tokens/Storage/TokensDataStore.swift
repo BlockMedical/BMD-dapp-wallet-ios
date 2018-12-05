@@ -119,7 +119,7 @@ class TokensDataStore {
 
         // BMD
         let bmd = TokenObject(
-            contract: "0x686205e2E139Cf7F4fE0e11De7C1F0F11770Fe94",
+            contract: "0x557c8F46cc33Ad9a723A204509629ccA7bc19e15",
             name: "Utility-BlockMed",
             coin: .ethereum,
             type: .ERC20,
