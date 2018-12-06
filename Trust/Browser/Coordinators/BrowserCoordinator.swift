@@ -9,7 +9,7 @@ import URLNavigator
 import WebKit
 import Branch
 
-enum BrowserCoordinatorType {
+enum BrowserType {
     case blockMed
     case mobileApp
 }
@@ -23,7 +23,7 @@ final class BrowserCoordinator: NSObject, Coordinator {
     let session: WalletSession
     let keystore: Keystore
     let navigationController: NavigationController
-    let type: BrowserCoordinatorType
+    let type: BrowserType
 
     lazy var bookmarksViewController: BookmarkViewController = {
         let controller = BookmarkViewController(bookmarksStore: bookmarksStore)
@@ -49,8 +49,7 @@ final class BrowserCoordinator: NSObject, Coordinator {
     }()
 
     lazy var browserViewController: BrowserViewController = {
-        let homeURL = type == .blockMed ? Constants.dappsBrowserURL : Constants.dappsMobileAppURL
-        let controller = BrowserViewController(account: session.account, config: session.config, homeURL: homeURL, server: server)
+        let controller = BrowserViewController(type: type, account: session.account, config: session.config, server: server)
         controller.delegate = self
         controller.webView.uiDelegate = self
         return controller
@@ -87,7 +86,7 @@ final class BrowserCoordinator: NSObject, Coordinator {
         keystore: Keystore,
         navigator: Navigator,
         sharedRealm: Realm,
-        type: BrowserCoordinatorType
+        type: BrowserType
     ) {
         self.navigationController = NavigationController(navigationBarClass: BrowserNavigationBar.self, toolbarClass: nil)
 

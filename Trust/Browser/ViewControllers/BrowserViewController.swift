@@ -5,6 +5,7 @@ import UIKit
 import WebKit
 import JavaScriptCore
 import Result
+import WebViewJavascriptBridge
 
 enum BrowserAction {
     case history
@@ -24,9 +25,9 @@ protocol BrowserViewControllerDelegate: class {
 final class BrowserViewController: UIViewController {
 
     private var myContext = 0
+    let type: BrowserType
     let account: WalletInfo
     let sessionConfig: Config
-    let homeURL: String
 
     private struct Keys {
         static let estimatedProgress = "estimatedProgress"
@@ -52,6 +53,8 @@ final class BrowserViewController: UIViewController {
         }
         return webView
     }()
+
+    private var bridge = WebViewJavascriptBridge()
 
     lazy var errorView: BrowserErrorView = {
         let errorView = BrowserErrorView()
@@ -85,14 +88,14 @@ final class BrowserViewController: UIViewController {
     let server: RPCServer
 
     init(
+        type: BrowserType,
         account: WalletInfo,
         config: Config,
-        homeURL: String,
         server: RPCServer
     ) {
+        self.type = type
         self.account = account
         self.sessionConfig = config
-        self.homeURL = homeURL
         self.server = server
 
         super.init(nibName: nil, bundle: nil)
@@ -123,6 +126,12 @@ final class BrowserViewController: UIViewController {
         view.backgroundColor = .white
         webView.addObserver(self, forKeyPath: Keys.estimatedProgress, options: .new, context: &myContext)
         webView.addObserver(self, forKeyPath: Keys.URL, options: [.new, .initial], context: &myContext)
+
+        WebViewJavascriptBridge.enableLogging()
+        self.bridge = WebViewJavascriptBridge(webView)
+        self.bridge.setWebViewDelegate(self)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(BrowserViewController.transactionConfirmed), name: Notification.Name(rawValue: "transactionConfirmed"), object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -160,6 +169,7 @@ final class BrowserViewController: UIViewController {
     }
 
     func goHome() {
+        let homeURL = type == .blockMed ? Constants.dappsBrowserURL : Constants.dappsMobileAppURL
         guard let url = URL(string: homeURL) else { return }
         var request = URLRequest(url: url)
         request.cachePolicy = .returnCacheDataElseLoad
@@ -221,6 +231,7 @@ final class BrowserViewController: UIViewController {
     deinit {
         webView.removeObserver(self, forKeyPath: Keys.estimatedProgress)
         webView.removeObserver(self, forKeyPath: Keys.URL)
+        NotificationCenter.default.removeObserver(self)
     }
 
     func addBookmark() {
@@ -305,4 +316,17 @@ extension BrowserViewController: BrowserErrorViewDelegate {
     func didTapReload(_ sender: Button) {
         reload()
     }
+}
+
+extension BrowserViewController {
+
+    @objc func transactionConfirmed() {
+        // TODO: Sent twice notification?
+        bridge.callHandler("FileListItemFetchKey", data: [], responseCallback: { (response) in
+            if let response = response {
+                print("### BrowserViewController : \(response)")
+            }
+        })
+    }
+
 }
