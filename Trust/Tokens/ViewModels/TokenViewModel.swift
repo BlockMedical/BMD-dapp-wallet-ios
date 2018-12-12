@@ -261,7 +261,7 @@ final class TokenViewModel {
             transactionsProvider.update(for: transaction) { result in
                 switch result {
                 case .success(let transaction, let state):
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: "transactionConfirmed"), object: nil)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "transactionConfirmed"), object: transaction.id)
                     self.transactionsStore.update(state: state, for: transaction)
                 case .failure: break
                 }

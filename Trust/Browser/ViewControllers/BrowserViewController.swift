@@ -55,6 +55,7 @@ final class BrowserViewController: UIViewController {
     }()
 
     private var bridge = WebViewJavascriptBridge()
+    private var JSHandler = [String: String]()
 
     lazy var errorView: BrowserErrorView = {
         let errorView = BrowserErrorView()
@@ -127,11 +128,7 @@ final class BrowserViewController: UIViewController {
         webView.addObserver(self, forKeyPath: Keys.estimatedProgress, options: .new, context: &myContext)
         webView.addObserver(self, forKeyPath: Keys.URL, options: [.new, .initial], context: &myContext)
 
-        WebViewJavascriptBridge.enableLogging()
-        self.bridge = WebViewJavascriptBridge(webView)
-        self.bridge.setWebViewDelegate(self)
-
-        NotificationCenter.default.addObserver(self, selector: #selector(BrowserViewController.transactionConfirmed), name: Notification.Name(rawValue: "transactionConfirmed"), object: nil)
+        setupWebViewJavascriptBridge()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -259,6 +256,38 @@ final class BrowserViewController: UIViewController {
             errorView.show(error: error)
         }
     }
+
+    // MARK: - Private Methods
+
+    private func setupWebViewJavascriptBridge() {
+        WebViewJavascriptBridge.enableLogging()
+        self.bridge = WebViewJavascriptBridge(webView)
+        self.bridge.setWebViewDelegate(self)
+
+        self.bridge.registerHandler("FileListItemAccessButtonDidTap") { (data, callback) in
+            setJSHandlerEvent(data: data)
+
+            if let callback = callback {
+                callback("FileListItemAccessButtonDidTap callback")
+            }
+        }
+
+        self.bridge.registerHandler("FileRegisterButtonDidTap") { (data, callback) in
+            setJSHandlerEvent(data: data)
+
+            if let callback = callback {
+                callback("FileListItemAccessButtonDidTap callback")
+            }
+        }
+
+        func setJSHandlerEvent(data: Any?) {
+            if let data = data as? [String: String], let key = data.keys.first, let value = data[key], JSHandler[key] == nil {
+                JSHandler[key] = value
+            }
+        }
+
+        NotificationCenter.default.addObserver(self, selector: #selector(BrowserViewController.transactionConfirmed), name: Notification.Name(rawValue: "transactionConfirmed"), object: nil)
+    }
 }
 
 extension BrowserViewController: BrowserNavigationBarDelegate {
@@ -320,13 +349,30 @@ extension BrowserViewController: BrowserErrorViewDelegate {
 
 extension BrowserViewController {
 
-    @objc func transactionConfirmed() {
-        // TODO: Sent twice notification?
-        bridge.callHandler("FileListItemFetchKey", data: [], responseCallback: { (response) in
-            if let response = response {
-                print("### BrowserViewController : \(response)")
+    @objc func transactionConfirmed(note: Notification) {
+        // TODO: should fix twice notifications
+        print("### JSHandler : \(JSHandler)")
+        if let txID = note.object as? String, !txID.isEmpty, JSHandler[txID] != nil, let type = JSHandler[txID] {
+            // TODO: remove timing
+            JSHandler.removeValue(forKey: txID)
+            print("### txID : \(txID)")
+
+            var eventKey = ""
+            let params = ["ipfsMetadataHash": txID]
+            switch type {
+            case "accessFile":
+                eventKey = "FileListItemFetchKeyForIPFS"
+            case "registerFile":
+                eventKey = "FileRegisterCompleted"
+            default:
+                break
             }
-        })
+            bridge.callHandler(eventKey, data: params, responseCallback: { (response) in
+                if let response = response {
+                    print("### callHandler response : \(response)")
+                }
+            })
+        }
     }
 
 }
