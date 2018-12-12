@@ -104,22 +104,9 @@ class TokensDataStore {
     }
 
     private func bmdCoins() -> [TokenObject] {
-        // SBMD
-        let sbmd = TokenObject(
-            contract: "0xE9Fa8C7f14207E9354f5d65207A410Fc6AFed49F",
-            name: "SAFT-BlockMed",
-            coin: .ethereum,
-            type: .ERC20,
-            symbol: "SBMD",
-            decimals: 18,
-            value: "0",
-            isCustom: true,
-            isDisabled: false
-        )
-
         // BMD
         let bmd = TokenObject(
-            contract: "0x557c8F46cc33Ad9a723A204509629ccA7bc19e15",
+            contract: "0xD17663f802Cd6432C2AC43EfF1dB5A5c32983b0F",
             name: "Utility-BlockMed",
             coin: .ethereum,
             type: .ERC20,
@@ -129,7 +116,7 @@ class TokensDataStore {
             isCustom: true,
             isDisabled: false
         )
-        return [sbmd, bmd]
+        return [bmd]
     }
 
     static func token(for server: RPCServer) -> TokenObject {
