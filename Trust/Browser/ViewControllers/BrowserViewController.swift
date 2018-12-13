@@ -166,7 +166,16 @@ final class BrowserViewController: UIViewController {
     }
 
     func goHome() {
-        let homeURL = type == .blockMed ? Constants.dappsBrowserURL : Constants.dappsMobileAppURL
+        var homeURL = ""
+        switch type {
+        case .blockMed:
+            homeURL = Constants.dappsBrowserURL
+        case .registerFile:
+            homeURL = Constants.dappsRegisterFileURL
+        case .accessFile:
+            homeURL = Constants.dappsAccessFileURL
+        }
+        
         guard let url = URL(string: homeURL) else { return }
         var request = URLRequest(url: url)
         request.cachePolicy = .returnCacheDataElseLoad

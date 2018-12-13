@@ -10,16 +10,18 @@ enum WalletAction {
 
 enum Tabs {
     case browser(openURL: URL?)
-    case mobileApp(openURL: URL?)
+    case registerFile(openURL: URL?)
+    case accessFile(openURL: URL?)
     case wallet(WalletAction)
     case settings
 
     var index: Int {
         switch self {
         case .browser: return 0
-        case .mobileApp: return 1
-        case .wallet: return 2
-        case .settings: return 3
+        case .registerFile: return 1
+        case .accessFile: return 2
+        case .wallet: return 3
+        case .settings: return 4
         }
     }
 }
@@ -29,13 +31,16 @@ extension Tabs: Equatable {
         switch (lhs, rhs) {
         case (let .browser(lhs), let .browser(rhs)):
             return lhs == rhs
-        case (let .mobileApp(lhs), let .mobileApp(rhs)):
+        case (let .registerFile(lhs), let .registerFile(rhs)):
+            return lhs == rhs
+        case (let .accessFile(lhs), let .accessFile(rhs)):
             return lhs == rhs
         case (.wallet, .wallet),
              (.settings, .settings):
             return true
         case (_, .browser),
-             (_, .mobileApp),
+             (_, .registerFile),
+             (_, .accessFile),
              (_, .wallet),
              (_, .settings):
             return false

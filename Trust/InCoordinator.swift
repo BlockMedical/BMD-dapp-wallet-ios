@@ -80,11 +80,18 @@ class InCoordinator: Coordinator {
                 return coordinator.type == .blockMed
             }.first
     }
-    private var mobileAppCoordinator: BrowserCoordinator? {
+    private var registerFileCoordinator: BrowserCoordinator? {
         return self.coordinators
             .compactMap { $0 as? BrowserCoordinator }
             .filter { (coordinator) -> Bool in
-                return coordinator.type == .mobileApp
+                return coordinator.type == .registerFile
+            }.first
+    }
+    private var accessFileCoordinator: BrowserCoordinator? {
+        return self.coordinators
+            .compactMap { $0 as? BrowserCoordinator }
+            .filter { (coordinator) -> Bool in
+                return coordinator.type == .accessFile
             }.first
     }
     var settingsCoordinator: SettingsCoordinator? {
@@ -168,11 +175,17 @@ class InCoordinator: Coordinator {
         browserCoordinator.rootViewController.tabBarItem = viewModel.browserBarItem
         addCoordinator(browserCoordinator)
 
-        let mobileAppCoordinator = BrowserCoordinator(session: session, keystore: keystore, navigator: navigator, sharedRealm: sharedRealm, type: .mobileApp)
-        mobileAppCoordinator.delegate = self
-        mobileAppCoordinator.start()
-        mobileAppCoordinator.rootViewController.tabBarItem = viewModel.mobileAppBarItem
-        addCoordinator(mobileAppCoordinator)
+        let registerFileCoordinator = BrowserCoordinator(session: session, keystore: keystore, navigator: navigator, sharedRealm: sharedRealm, type: .registerFile)
+        registerFileCoordinator.delegate = self
+        registerFileCoordinator.start()
+        registerFileCoordinator.rootViewController.tabBarItem = viewModel.registerFileBarItem
+        addCoordinator(registerFileCoordinator)
+        
+        let accessFileCoordinator = BrowserCoordinator(session: session, keystore: keystore, navigator: navigator, sharedRealm: sharedRealm, type: .accessFile)
+        accessFileCoordinator.delegate = self
+        accessFileCoordinator.start()
+        accessFileCoordinator.rootViewController.tabBarItem = viewModel.accessFileBarItem
+        addCoordinator(accessFileCoordinator)
 
         let walletCoordinator = TokensCoordinator(
             session: session,
@@ -199,7 +212,8 @@ class InCoordinator: Coordinator {
 
         tabBarController.viewControllers = [
             browserCoordinator.navigationController.childNavigationController,
-            mobileAppCoordinator.navigationController.childNavigationController,
+            registerFileCoordinator.navigationController.childNavigationController,
+            accessFileCoordinator.navigationController.childNavigationController,
             walletCoordinator.navigationController.childNavigationController,
             settingsCoordinator.navigationController.childNavigationController,
         ]
@@ -231,9 +245,13 @@ class InCoordinator: Coordinator {
             if let url = url {
                 browserCoordinator?.openURL(url)
             }
-        case .mobileApp(let url):
+        case .registerFile(let url):
             if let url = url {
-                mobileAppCoordinator?.openURL(url)
+                registerFileCoordinator?.openURL(url)
+            }
+        case .accessFile(let url):
+            if let url = url {
+                accessFileCoordinator?.openURL(url)
             }
         case .wallet(let action):
             switch action {

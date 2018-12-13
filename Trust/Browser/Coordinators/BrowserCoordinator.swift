@@ -11,7 +11,8 @@ import Branch
 
 enum BrowserType {
     case blockMed
-    case mobileApp
+    case registerFile
+    case accessFile
 }
 
 protocol BrowserCoordinatorDelegate: class {
@@ -91,7 +92,16 @@ final class BrowserCoordinator: NSObject, Coordinator {
         self.navigationController = NavigationController(navigationBarClass: BrowserNavigationBar.self, toolbarClass: nil)
 
         if let navigationBar = self.navigationController.navigationBar as? BrowserNavigationBar {
-            navigationBar.titleLabel.text = type == .blockMed ? "BlockMed" : "Mobile App"
+            var title = ""
+            switch type {
+            case .blockMed:
+                title = "BlockMed"
+            case .registerFile:
+                title = "Register File"
+            case .accessFile:
+                title = "Access File"
+            }
+            navigationBar.titleLabel.text = title
         }
 
         self.session = session

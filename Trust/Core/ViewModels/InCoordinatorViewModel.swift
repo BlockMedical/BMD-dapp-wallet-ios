@@ -28,9 +28,17 @@ struct InCoordinatorViewModel {
         )
     }
 
-    var mobileAppBarItem: UITabBarItem {
+    var registerFileBarItem: UITabBarItem {
         return UITabBarItem(
-            title: "Mobile App",
+            title: "Register File",
+            image: R.image.dapps_icon(),
+            selectedImage: nil
+        )
+    }
+    
+    var accessFileBarItem: UITabBarItem {
+        return UITabBarItem(
+            title: "Access File",
             image: R.image.dapps_icon(),
             selectedImage: nil
         )
