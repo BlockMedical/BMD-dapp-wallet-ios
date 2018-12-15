@@ -27,7 +27,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2912CCF41F6A830700C6CBE3"
-            BuildableName = "Trust.app"
+            BuildableName = "BlockMed.app"
             BlueprintName = "Trust"
             ReferencedContainer = "container:Trust.xcodeproj">
          </BuildableReference>
@@ -50,7 +50,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2912CCF41F6A830700C6CBE3"
-            BuildableName = "Trust.app"
+            BuildableName = "BlockMed.app"
             BlueprintName = "Trust"
             ReferencedContainer = "container:Trust.xcodeproj">
          </BuildableReference>
@@ -68,7 +68,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2912CCF41F6A830700C6CBE3"
-            BuildableName = "Trust.app"
+            BuildableName = "BlockMed.app"
             BlueprintName = "Trust"
             ReferencedContainer = "container:Trust.xcodeproj">
          </BuildableReference>
