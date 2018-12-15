@@ -35,7 +35,11 @@ struct ConfigExplorer {
     private func explorer(for server: RPCServer) -> String? {
         switch server {
         case .main:
-            return "https://ropsten.etherscan.io"
+            if isDebug {
+                return "https://ropsten.etherscan.io"
+            } else {
+                return "https://etherscan.io"
+            }
         case .classic:
             return "https://gastracker.io"
         case .poa:

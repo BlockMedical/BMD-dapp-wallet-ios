@@ -104,6 +104,7 @@ class TokensDataStore {
     }
 
     private func bmdCoins() -> [TokenObject] {
+        // TODO: Mainnet and Testnet contract address
         // BMD
         let bmd = TokenObject(
             contract: "0xD17663f802Cd6432C2AC43EfF1dB5A5c32983b0F",

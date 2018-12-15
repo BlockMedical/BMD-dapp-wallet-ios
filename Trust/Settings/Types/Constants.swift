@@ -18,14 +18,23 @@ public struct Constants {
     public static let supportEmail = "support@trustwalletapp.com"
 
     public static let dappsBrowserURL = "http://www.blockmed.ai"
-    public static let dappsRegisterFileURL = "https://ipfs.blcksync.info/file-register"
-    public static let dappsAccessFileURL = "https://ipfs.blcksync.info/file-list"
+    public static let dappsRegisterFileURL = BlockMedConstants.blockMedBaseURL + "file-register"
+    public static let dappsAccessFileURL = BlockMedConstants.blockMedBaseURL + "file-list"
     public static let dappsOpenSea = "https://opensea.io"
     public static let dappsRinkebyOpenSea = "https://rinkeby.opensea.io"
 
     public static let images = "https://trustwalletapp.com/images"
 
     public static let trustAPI = URL(string: "https://public.trustwalletapp.com")!
+}
+
+public struct BlockMedConstants {
+    // BlockMed
+    #if DEBUG
+    public static let blockMedBaseURL = "https://ipfs.dev.blcksync.info/"
+    #else
+    public static let blockMedBaseURL = "https://ipfs.blcksync.info/"
+    #endif
 }
 
 public struct UnitConfiguration {

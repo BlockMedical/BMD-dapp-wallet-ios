@@ -175,7 +175,7 @@ final class BrowserViewController: UIViewController {
         case .accessFile:
             homeURL = Constants.dappsAccessFileURL
         }
-        
+
         guard let url = URL(string: homeURL) else { return }
         var request = URLRequest(url: url)
         request.cachePolicy = .returnCacheDataElseLoad

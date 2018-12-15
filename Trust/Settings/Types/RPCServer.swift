@@ -22,7 +22,12 @@ enum RPCServer {
 
     var chainID: Int {
         switch self {
-        case .main: return 3
+        case .main:
+            if isDebug {
+                return 3
+            } else {
+                return 1
+            }
         case .poa: return 99
         case .classic: return 61
         case .callisto: return 820
@@ -78,7 +83,12 @@ enum RPCServer {
     var rpcURL: URL {
         let urlString: String = {
             switch self {
-            case .main: return "https://ropsten.infura.io/llyrtzQ3YhkdESt2Fzrk"
+            case .main:
+                if isDebug {
+                    return "https://ropsten.infura.io/llyrtzQ3YhkdESt2Fzrk"
+                } else {
+                    return "https://mainnet.infura.io/llyrtzQ3YhkdESt2Fzrk"
+                }
             case .classic: return "https://etc-geth.0xinfra.com"
             case .callisto: return "https://clo-geth.0xinfra.com"
             case .poa: return "https://poa.infura.io"
@@ -91,7 +101,12 @@ enum RPCServer {
     var remoteURL: URL {
         let urlString: String = {
             switch self {
-            case .main: return "https://ropsten.trustwalletapp.com"
+            case .main:
+                if isDebug {
+                    return "https://ropsten.trustwalletapp.com"
+                } else {
+                    return "https://api.trustwalletapp.com"
+                }
             case .classic: return "https://classic.trustwalletapp.com"
             case .callisto: return "https://callisto.trustwalletapp.com"
             case .poa: return "https://poa.trustwalletapp.com"
@@ -105,7 +120,11 @@ enum RPCServer {
         // https://docs.ens.domains/en/latest/introduction.html#ens-on-ethereum
         switch self {
         case .main:
-            return EthereumAddress(string: "0x112234455c3a32fd11230c42e7bccd4a84e02010")!
+            if isDebug {
+                return EthereumAddress(string: "0x112234455c3a32fd11230c42e7bccd4a84e02010")!
+            } else {
+                return EthereumAddress(string: "0x314159265dd8dbb310642f98f50c066173c1259b")!
+            }
         case .classic, .poa, .callisto, .gochain:
             return EthereumAddress.zero
         }
