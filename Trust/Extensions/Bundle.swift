@@ -24,6 +24,8 @@ extension Bundle {
 var isDebug: Bool {
     #if DEBUG
         return true
+    #elseif BETA
+        return true
     #else
         return false
     #endif
