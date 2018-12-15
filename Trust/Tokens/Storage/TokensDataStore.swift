@@ -104,10 +104,11 @@ class TokensDataStore {
     }
 
     private func bmdCoins() -> [TokenObject] {
-        // TODO: Mainnet and Testnet contract address
+        let erc20TokenConstract = isDebug ? "0xe90051496b797f5a04196fF3196aa21ed36bC392" : "0xD9a2Dc793E1BBce46e2A7E766D7C76FDaF465E48"
+
         // BMD
         let bmd = TokenObject(
-            contract: "0xD17663f802Cd6432C2AC43EfF1dB5A5c32983b0F",
+            contract: erc20TokenConstract,
             name: "Utility-BlockMed",
             coin: .ethereum,
             type: .ERC20,
