@@ -30,7 +30,7 @@ struct InCoordinatorViewModel {
 
     var registerFileBarItem: UITabBarItem {
         return UITabBarItem(
-            title: "Register File",
+            title: "Register",
             image: R.image.dapps_icon(),
             selectedImage: nil
         )
@@ -38,7 +38,7 @@ struct InCoordinatorViewModel {
     
     var accessFileBarItem: UITabBarItem {
         return UITabBarItem(
-            title: "Access File",
+            title: "Access",
             image: R.image.dapps_icon(),
             selectedImage: nil
         )

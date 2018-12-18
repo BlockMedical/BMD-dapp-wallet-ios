@@ -97,9 +97,9 @@ final class BrowserCoordinator: NSObject, Coordinator {
             case .blockMed:
                 title = "BlockMed"
             case .registerFile:
-                title = "Register File"
+                title = "Register"
             case .accessFile:
-                title = "Access File"
+                title = "Access"
             }
             navigationBar.titleLabel.text = title
         }
