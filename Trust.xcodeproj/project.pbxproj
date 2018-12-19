@@ -3521,10 +3521,10 @@
 				INFOPLIST_FILE = Trust/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.blockmed.wallet-dev";
+				PRODUCT_BUNDLE_IDENTIFIER = "ai.blockmed.wallet-dev";
 				PRODUCT_NAME = "BlockMed-Dev";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "BlockMed-Dev";
+				PROVISIONING_PROFILE_SPECIFIER = "BlockMed-AI-Dev";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -3550,10 +3550,10 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				INFOPLIST_FILE = Trust/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.blockmed.wallet;
+				PRODUCT_BUNDLE_IDENTIFIER = ai.blockmed.wallet;
 				PRODUCT_NAME = BlockMed;
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "BlockMed-Prod";
+				PROVISIONING_PROFILE_SPECIFIER = "BlockMed-AI-Prod";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -3706,10 +3706,10 @@
 				INFOPLIST_FILE = Trust/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D BETA";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.blockmed.wallet-beta";
+				PRODUCT_BUNDLE_IDENTIFIER = "ai.blockmed.wallet-beta";
 				PRODUCT_NAME = "BlockMed-Beta";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "BlockMed-Beta";
+				PROVISIONING_PROFILE_SPECIFIER = "BlockMed-AI-Beta";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
