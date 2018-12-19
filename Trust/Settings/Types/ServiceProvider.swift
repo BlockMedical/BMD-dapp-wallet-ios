@@ -34,9 +34,9 @@ enum URLServiceProvider {
     var localURL: URL? {
         switch self {
         case .twitter:
-            return URL(string: "twitter://user?screen_name=\(Constants.twitterUsername)")!
+            return URL(string: "twitter://user?screen_name=\(Constants.blockMedTwitterUsername)")!
         case .telegram:
-            return URL(string: "tg://resolve?domain=\(preferredTelegramUsername())")
+            return URL(string: "tg://resolve?domain=\(preferredBlockMedTelegramUsername())")
         case .facebook:
             return URL(string: "fb://profile?id=\(Constants.facebookUsername)")
         case .discord: return nil
@@ -56,9 +56,9 @@ enum URLServiceProvider {
     private var remoteURLString: String {
         switch self {
         case .twitter:
-            return "https://twitter.com/\(Constants.twitterUsername)"
+            return "https://twitter.com/\(Constants.blockMedTwitterUsername)"
         case .telegram:
-            return "https://telegram.me/\(preferredTelegramUsername())"
+            return "https://telegram.me/\(preferredBlockMedTelegramUsername())"
         case .facebook:
             return "https://www.facebook.com/\(Constants.facebookUsername)"
         case .discord:
@@ -66,7 +66,7 @@ enum URLServiceProvider {
         case .helpCenter:
             return "https://help.trustwalletapp.com"
         case .sourceCode:
-            return "https://github.com/TrustWallet/trust-wallet-ios"
+            return "https://github.com/blcksync/bc-ipfs"
         case .privacyPolicy:
             return "https://trustwalletapp.com/privacy-policy.html"
         case .termsOfService:
@@ -96,5 +96,9 @@ enum URLServiceProvider {
     private func preferredTelegramUsername() -> String {
         let languageCode = NSLocale.preferredLanguageCode ?? ""
         return Constants.localizedTelegramUsernames[languageCode] ?? Constants.defaultTelegramUsername
+    }
+    
+    private func preferredBlockMedTelegramUsername() -> String {
+        return Constants.defaultBlockMedTelegramUsername
     }
 }

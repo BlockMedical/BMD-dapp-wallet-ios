@@ -9,13 +9,16 @@ public struct Constants {
     // social
     public static let website = "https://trustwalletapp.com"
     public static let twitterUsername = "trustwalletapp"
+    public static let blockMedTwitterUsername = "BlockMed_AI"
     public static let defaultTelegramUsername = "trustwallet"
+    public static let defaultBlockMedTelegramUsername = "blockmed"
     public static let facebookUsername = "trustwalletapp"
 
     public static var localizedTelegramUsernames = ["ru": "trustwallet_ru", "vi": "trustwallet_vn", "es": "trustwallet_es", "zh": "trustwallet_cn", "ja": "trustwallet_jp", "de": "trustwallet_de", "fr": "trustwallet_fr"]
 
     // support
     public static let supportEmail = "support@trustwalletapp.com"
+    public static let blockMedSupportEmail = "info@blockmed.ai"
 
     public static let dappsBrowserURL = "http://www.blockmed.ai"
     public static let dappsRegisterFileURL = BlockMedConstants.blockMedBaseURL + "file-register"
