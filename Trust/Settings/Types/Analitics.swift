@@ -25,8 +25,8 @@ enum Analitics: String {
     var isEnabled: Bool {
         let preferencesController = PreferencesController()
         guard let object = preferencesController.get(for: self.rawValue), let number = object as? NSNumber else {
-            preferencesController.set(value: NSNumber(booleanLiteral: true), for: self.rawValue)
-            return true
+            preferencesController.set(value: NSNumber(booleanLiteral: false), for: self.rawValue)
+            return false
         }
         return number.boolValue
     }
