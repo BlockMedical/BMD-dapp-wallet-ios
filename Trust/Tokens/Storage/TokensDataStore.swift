@@ -104,11 +104,12 @@ class TokensDataStore {
     }
 
     private func bmdCoins() -> [TokenObject] {
-        let erc20TokenConstract = isDebug ? "0xe90051496b797f5a04196fF3196aa21ed36bC392" : "0xD9a2Dc793E1BBce46e2A7E766D7C76FDaF465E48"
+        let bmdTokenContract = isDebug ? "0xe90051496b797f5a04196fF3196aa21ed36bC392" : "0xD9a2Dc793E1BBce46e2A7E766D7C76FDaF465E48"
+        let bmvTokenContract = isDebug ? "0xf388955809799d9c6dA4Bd124e3467A75F802C18" : "0x76eec17d8f2A0faD17C9DF63524799130834d9D2"
 
         // BMD
         let bmd = TokenObject(
-            contract: erc20TokenConstract,
+            contract: bmdTokenContract,
             name: "Utility-BlockMed",
             coin: .ethereum,
             type: .ERC20,
@@ -118,7 +119,20 @@ class TokensDataStore {
             isCustom: true,
             isDisabled: false
         )
-        return [bmd]
+
+        // BMV
+        let bmv = TokenObject(
+            contract: bmvTokenContract,
+            name: "BlockMed Venture",
+            coin: .ethereum,
+            type: .ERC20,
+            symbol: "BMV",
+            decimals: 18,
+            value: "0",
+            isCustom: true,
+            isDisabled: false
+        )
+        return [bmd, bmv]
     }
 
     static func token(for server: RPCServer) -> TokenObject {
