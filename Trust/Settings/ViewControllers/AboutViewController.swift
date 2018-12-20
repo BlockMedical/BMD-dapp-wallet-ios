@@ -52,6 +52,10 @@ final class AboutViewController: FormViewController {
                 $0.value = Bundle.main.fullVersion
                 $0.disabled = true
             }
+        
+            +++ Section(R.string.localizable.poweredBy())
+            
+            <<< linkProvider(type: .infura)
     }
 
     private func linkProvider(

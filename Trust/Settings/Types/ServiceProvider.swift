@@ -66,11 +66,11 @@ enum URLServiceProvider {
         case .helpCenter:
             return "https://help.trustwalletapp.com"
         case .sourceCode:
-            return "https://github.com/blcksync/bc-ipfs"
+            return "https://github.com/BlockMedical/BMD-dapp-wallet-ios"
         case .privacyPolicy:
-            return "https://trustwalletapp.com/privacy-policy.html"
+            return "https://github.com/BlockMedical/BMD-mobile_app_projects/Privacy"
         case .termsOfService:
-            return "https://trustwalletapp.com/terms.html"
+            return "https://github.com/BlockMedical/BMD-mobile_app_projects/ToS"
         case .infura:
             return "https://infura.io/"
         case .dappsOpenSea:
