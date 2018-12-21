@@ -22,7 +22,7 @@ public struct Constants {
 
     public static let dappsBrowserURL = "http://www.blockmed.ai"
     public static let dappsRegisterFileURL = BlockMedConstants.blockMedBaseURL + "file-register"
-    public static let dappsAccessFileURL = BlockMedConstants.blockMedBaseURL + "file-list"
+    public static let dappsAccessFileURL = BlockMedConstants.blockMedBaseURL + "file-access"
     public static let dappsOpenSea = "https://opensea.io"
     public static let dappsRinkebyOpenSea = "https://rinkeby.opensea.io"
 

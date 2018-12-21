@@ -77,7 +77,7 @@ final class AboutViewController: FormViewController {
         let composerController = MFMailComposeViewController()
         composerController.mailComposeDelegate = self
         composerController.setToRecipients([Constants.blockMedSupportEmail])
-        composerController.setSubject(R.string.localizable.settingsFeedbackEmailTitle())
+        composerController.setSubject("BlockMed Feedback")
         composerController.setMessageBody(emailTemplate(), isHTML: false)
 
         if MFMailComposeViewController.canSendMail() {
@@ -92,7 +92,7 @@ final class AboutViewController: FormViewController {
         Helpful information to developers:
         iOS Version: \(UIDevice.current.systemVersion)
         Device Model: \(UIDevice.current.model)
-        Trust Version: \(Bundle.main.fullVersion)
+        BlockMed Version: \(Bundle.main.fullVersion)
         Current locale: \(Locale.preferredLanguages.first ?? "")
         """
     }
