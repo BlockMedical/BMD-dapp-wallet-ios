@@ -20,7 +20,7 @@ public struct Constants {
     public static let supportEmail = "support@trustwalletapp.com"
     public static let blockMedSupportEmail = "info@blockmed.ai"
 
-    public static let dappsBrowserURL = "http://www.blockmed.ai"
+    public static let dappsBrowserURL = "https://www.blockmed.ai"
     public static let dappsRegisterFileURL = BlockMedConstants.blockMedBaseURL + "file-register"
     public static let dappsAccessFileURL = BlockMedConstants.blockMedBaseURL + "file-access"
     public static let dappsOpenSea = "https://opensea.io"
