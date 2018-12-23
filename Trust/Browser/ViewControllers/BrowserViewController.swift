@@ -55,7 +55,7 @@ final class BrowserViewController: UIViewController {
     }()
 
     private var bridge = WebViewJavascriptBridge()
-    private var JSHandler = [String: [String: String]]()
+    private var jsBridgeHandler = [String: [String: String]]()
 
     lazy var errorView: BrowserErrorView = {
         let errorView = BrowserErrorView()
@@ -274,7 +274,7 @@ final class BrowserViewController: UIViewController {
         self.bridge.setWebViewDelegate(self)
 
         self.bridge.registerHandler("FileListItemAccessButtonDidTap") { (data, callback) in
-            setJSHandlerEvent(data: data)
+            setJsBridgeHandlerEvent(data: data)
 
             if let callback = callback {
                 callback("FileListItemAccessButtonDidTap callback")
@@ -282,19 +282,19 @@ final class BrowserViewController: UIViewController {
         }
 
         self.bridge.registerHandler("FileRegisterButtonDidTap") { (data, callback) in
-            setJSHandlerEvent(data: data)
+            setJsBridgeHandlerEvent(data: data)
 
             if let callback = callback {
                 callback("FileListItemAccessButtonDidTap callback")
             }
         }
 
-        func setJSHandlerEvent(data: Any?) {
+        func setJsBridgeHandlerEvent(data: Any?) {
             if let data = data as? [String: [String: String]],
                 let key = data.keys.first,
                 let value = data[key],
-                JSHandler[key] == nil {
-                JSHandler[key] = value
+                jsBridgeHandler[key] == nil {
+                jsBridgeHandler[key] = value
             }
         }
 
@@ -363,8 +363,8 @@ extension BrowserViewController {
 
     @objc func transactionConfirmed(note: Notification) {
         // TODO: should fix twice notifications
-        if let txID = note.object as? String, !txID.isEmpty, JSHandler[txID] != nil,
-            let value = JSHandler[txID],
+        if let txID = note.object as? String, !txID.isEmpty, jsBridgeHandler[txID] != nil,
+            let value = jsBridgeHandler[txID],
             let type = value["type"] {
             var eventKey = ""
             var params = ["": ""]
@@ -378,7 +378,7 @@ extension BrowserViewController {
             default:
                 break
             }
-            JSHandler.removeValue(forKey: txID)
+            jsBridgeHandler.removeValue(forKey: txID)
             bridge.callHandler(eventKey, data: params, responseCallback: { (response) in
                 if let response = response {
                     print("### callHandler response : \(response)")
