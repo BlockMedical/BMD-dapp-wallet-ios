@@ -55,7 +55,7 @@ final class BrowserViewController: UIViewController {
     }()
 
     private var bridge = WebViewJavascriptBridge()
-    private var JSHandler = [String: String]()
+    private var JSHandler = [String: [String: String]]()
 
     lazy var errorView: BrowserErrorView = {
         let errorView = BrowserErrorView()
@@ -290,7 +290,10 @@ final class BrowserViewController: UIViewController {
         }
 
         func setJSHandlerEvent(data: Any?) {
-            if let data = data as? [String: String], let key = data.keys.first, let value = data[key], JSHandler[key] == nil {
+            if let data = data as? [String: [String: String]],
+                let key = data.keys.first,
+                let value = data[key],
+                JSHandler[key] == nil {
                 JSHandler[key] = value
             }
         }
@@ -360,22 +363,22 @@ extension BrowserViewController {
 
     @objc func transactionConfirmed(note: Notification) {
         // TODO: should fix twice notifications
-        print("### JSHandler : \(JSHandler)")
-        if let txID = note.object as? String, !txID.isEmpty, JSHandler[txID] != nil, let type = JSHandler[txID] {
-            // TODO: remove timing
-            JSHandler.removeValue(forKey: txID)
-            print("### txID : \(txID)")
-
+        if let txID = note.object as? String, !txID.isEmpty, JSHandler[txID] != nil,
+            let value = JSHandler[txID],
+            let type = value["type"] {
             var eventKey = ""
-            let params = ["ipfsMetadataHash": txID]
+            var params = ["": ""]
             switch type {
             case "accessFile":
-                eventKey = "FileListItemFetchKeyForIPFS"
+                eventKey = "FileListItemFetchKeyForIPFS-" + "\(value["hashId"] ?? "")"
+                params = ["ipfsMetadataHash": txID]
             case "registerFile":
                 eventKey = "FileRegisterCompleted"
+                params = ["ipfsMetadataHash": txID]
             default:
                 break
             }
+            JSHandler.removeValue(forKey: txID)
             bridge.callHandler(eventKey, data: params, responseCallback: { (response) in
                 if let response = response {
                     print("### callHandler response : \(response)")
