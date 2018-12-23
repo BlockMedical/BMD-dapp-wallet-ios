@@ -319,6 +319,18 @@ extension BrowserCoordinator: BrowserViewControllerDelegate {
     func didVisitURL(url: URL, title: String) {
         historyStore.record(url: url, title: title)
     }
+
+    func shouldOpenCustomWeb(url: URL) {
+        let coordinator = CustomWebCoordinator(url: url)
+        coordinator.didCompleted = { [unowned self] in
+            coordinator.didCompleted = nil
+            self.removeCoordinator(coordinator)
+            self.navigationController.dismiss(animated: true)
+        }
+        addCoordinator(coordinator)
+        coordinator.start()
+        navigationController.present(coordinator.navigationController, animated: true)
+    }
 }
 
 extension BrowserCoordinator: SignMessageCoordinatorDelegate {

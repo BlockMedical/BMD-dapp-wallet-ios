@@ -5,8 +5,9 @@ import UIKit
 
 final class CustomWebCoordinator: NSObject, Coordinator {
     var coordinators: [Coordinator] = []
+    var didCompleted: (() -> Void)?
 
-    private let navigationController: NavigationController
+    let navigationController: NavigationController
     private let url: URL
 
     private lazy var customWebViewController: CustomWebViewController = {
@@ -20,7 +21,12 @@ final class CustomWebCoordinator: NSObject, Coordinator {
     }
 
     func start() {
-        navigationController.present(customWebViewController, animated: true)
+        customWebViewController.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Dismiss", style: .done, target: self, action: #selector(dismiss))
+        navigationController.viewControllers = [customWebViewController]
+    }
+
+    @objc func dismiss() {
+        didCompleted?()
     }
 
 }

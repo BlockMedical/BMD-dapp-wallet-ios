@@ -20,6 +20,7 @@ protocol BrowserViewControllerDelegate: class {
     func didCall(action: DappAction, callbackID: Int)
     func runAction(action: BrowserAction)
     func didVisitURL(url: URL, title: String)
+    func shouldOpenCustomWeb(url: URL)
 }
 
 final class BrowserViewController: UIViewController {
@@ -273,6 +274,7 @@ final class BrowserViewController: UIViewController {
         self.bridge = WebViewJavascriptBridge(webView)
         self.bridge.setWebViewDelegate(self)
 
+        // File List Item
         self.bridge.registerHandler("FileListItemAccessButtonDidTap") { (data, callback) in
             setJsBridgeHandlerEvent(data: data)
 
@@ -281,6 +283,17 @@ final class BrowserViewController: UIViewController {
             }
         }
 
+        self.bridge.registerHandler("FileListItemDownloadFileButtonDidTap") { [unowned self] (data, callback) in
+            if let urlString = data as? String, let url = URL(string: urlString) {
+                self.delegate?.shouldOpenCustomWeb(url: url)
+            }
+
+            if let callback = callback {
+                callback("FileListItemDownloadFileButtonDidTap callback")
+            }
+        }
+
+        // File Register
         self.bridge.registerHandler("FileRegisterButtonDidTap") { (data, callback) in
             setJsBridgeHandlerEvent(data: data)
 
