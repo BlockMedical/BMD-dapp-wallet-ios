@@ -3,11 +3,17 @@
 import Foundation
 import UIKit
 
+enum NavigateAction {
+    case presentAction
+    case pushAction
+}
+
 final class CustomWebCoordinator: NSObject, Coordinator {
     var coordinators: [Coordinator] = []
     var didCompleted: (() -> Void)?
 
     let navigationController: NavigationController
+    private let action: NavigateAction
     private let url: URL
 
     private lazy var customWebViewController: CustomWebViewController = {
@@ -15,17 +21,22 @@ final class CustomWebCoordinator: NSObject, Coordinator {
         return controller
     }()
 
-    init(navigationController: NavigationController = NavigationController(), url: URL) {
+    init(navigationController: NavigationController = NavigationController(), navigateAction: NavigateAction, url: URL) {
         self.navigationController = navigationController
+        self.action = navigateAction
         self.url = url
     }
 
     func start() {
-        customWebViewController.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Dismiss", style: .done, target: self, action: #selector(dismiss))
+        if action == .presentAction {
+            customWebViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Dismiss", style: .done, target: self, action: #selector(completed))
+        } else {
+            customWebViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .done, target: self, action: #selector(completed))
+        }
         navigationController.viewControllers = [customWebViewController]
     }
 
-    @objc func dismiss() {
+    @objc func completed() {
         didCompleted?()
     }
 

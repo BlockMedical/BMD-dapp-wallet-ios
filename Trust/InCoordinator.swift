@@ -243,7 +243,16 @@ class InCoordinator: Coordinator {
         switch selectTab {
         case .browser(let url):
             if let url = url {
-                browserCoordinator?.openURL(url)
+                let coordinator = CustomWebCoordinator(navigateAction: .pushAction, url: url)
+                coordinator.didCompleted = { [unowned self] in
+                    coordinator.didCompleted = nil
+                    self.removeCoordinator(coordinator)
+                    self.navigationController.popViewController(animated: true)
+                }
+                addCoordinator(coordinator)
+                coordinator.start()
+                navigationController.pushViewController(coordinator.navigationController, animated: true)
+                return
             }
         case .registerFile(let url):
             if let url = url {

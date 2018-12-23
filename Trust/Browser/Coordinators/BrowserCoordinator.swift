@@ -321,7 +321,7 @@ extension BrowserCoordinator: BrowserViewControllerDelegate {
     }
 
     func shouldOpenCustomWeb(url: URL) {
-        let coordinator = CustomWebCoordinator(url: url)
+        let coordinator = CustomWebCoordinator(navigateAction: .presentAction, url: url)
         coordinator.didCompleted = { [unowned self] in
             coordinator.didCompleted = nil
             self.removeCoordinator(coordinator)
