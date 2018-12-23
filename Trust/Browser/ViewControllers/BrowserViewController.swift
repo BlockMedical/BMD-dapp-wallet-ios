@@ -285,7 +285,7 @@ final class BrowserViewController: UIViewController {
             setJsBridgeHandlerEvent(data: data)
 
             if let callback = callback {
-                callback("FileListItemAccessButtonDidTap callback")
+                callback("FileRegisterButtonDidTap callback")
             }
         }
 
