@@ -48,13 +48,15 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>QR Scan</string>
+	<string>Upload Photo from Camera</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Access your wallet</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Upload Video from Camera</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Sending QR Code to your contacts</string>
+	<string>Upload Photo from Album</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Sending QR Code to your contacts</string>
+	<string>Upload Photo from Album</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
