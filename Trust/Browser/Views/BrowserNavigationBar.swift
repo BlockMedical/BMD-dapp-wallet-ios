@@ -48,7 +48,7 @@ final class BrowserNavigationBar: UINavigationBar {
         moreButton.alpha = 0.0
 
         homeButton.translatesAutoresizingMaskIntoConstraints = false
-        homeButton.setImage(R.image.browserHome(), for: .normal)
+        homeButton.setImage(R.image.webview_home(), for: .normal)
         homeButton.addTarget(self, action: #selector(homeAction(_:)), for: .touchUpInside)
 
         backButton.translatesAutoresizingMaskIntoConstraints = false
@@ -71,12 +71,12 @@ final class BrowserNavigationBar: UINavigationBar {
         ])
 
         let stackView = UIStackView(arrangedSubviews: [
-            homeButton,
-            .spacerWidth(),
             backButton,
             textField,
             .spacerWidth(),
             moreButton,
+            .spacerWidth(),
+            homeButton,
         ])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
