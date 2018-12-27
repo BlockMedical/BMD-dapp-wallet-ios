@@ -35,6 +35,7 @@ final class LockEnterPasscodeCoordinator: Coordinator {
         }
 
         lockEnterPasscodeViewController.cleanUserInput()
+        lockEnterPasscodeViewController.showBiometricAuth()
     }
 
     func stop() {

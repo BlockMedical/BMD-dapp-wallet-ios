@@ -23,7 +23,7 @@ final class LockEnterPasscodeViewController: LockPasscodeViewController {
             showBiometricAuth()
         }
     }
-    private func showBiometricAuth() {
+    func showBiometricAuth() {
         self.context = LAContext()
         self.touchValidation()
     }
