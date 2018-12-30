@@ -48,15 +48,15 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Upload Photo from Camera</string>
+	<string>BlockMed uses camera for user to take a photo or record a video and can register them in the world.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Access your wallet</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Upload Video from Camera</string>
+	<string>BlockMed uses microphone for user record a video and can register it in the world.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Upload Photo from Album</string>
+	<string>BlockMed uses photo library for user to choose a photo and can register it in the world.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Upload Photo from Album</string>
+	<string>BlockMed uses photo library for user to choose a photo and can register it in the world.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
