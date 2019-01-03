@@ -48,15 +48,15 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>the camera ONLY with the user’s permission, and ONLY the user can decide whether to share contents with others on our platform for purposes of data analysis in AI models. Without the user’s permission, the camera’s data will NOT be accessed by us nor any other 3rd party.</string>
+	<string>BlockMed app is using the camera ONLY with the user’s permission, and ONLY the user can decide whether to share contents with others on our platform for purposes of data analysis in AI models. Without the user’s permission, the camera’s data will NOT be accessed by us nor any other 3rd party.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Access your wallet</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>the microphone ONLY with the user’s permission, and ONLY the user can decide whether to share contents with others on our platform for purposes of data analysis in AI models. Without the user’s permission, the microphone’s data will NOT be accessed by us nor any other 3rd party.</string>
+	<string>BlockMed app is using the microphone ONLY with the user’s permission, and ONLY the user can decide whether to share contents with others on our platform for purposes of data analysis in AI models. Without the user’s permission, the microphone’s data will NOT be accessed by us nor any other 3rd party.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>the photo library ONLY with the user’s permission, and ONLY the user can decide whether to share contents with others on our platform for purposes of data analysis in AI models. Without the user’s permission, the photo library’s data will NOT be accessed by us nor any other 3rd party.</string>
+	<string>BlockMed app is using the photo library ONLY with the user’s permission, and ONLY the user can decide whether to share contents with others on our platform for purposes of data analysis in AI models. Without the user’s permission, the photo library’s data will NOT be accessed by us nor any other 3rd party.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>the photo library ONLY with the user’s permission, and ONLY the user can decide whether to share contents with others on our platform for purposes of data analysis in AI models. Without the user’s permission, the photo library’s data will NOT be accessed by us nor any other 3rd party.</string>
+	<string>BlockMed app is using the photo library ONLY with the user’s permission, and ONLY the user can decide whether to share contents with others on our platform for purposes of data analysis in AI models. Without the user’s permission, the photo library’s data will NOT be accessed by us nor any other 3rd party.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
