@@ -104,8 +104,8 @@ class TokensDataStore {
     }
 
     private func bmdCoins() -> [TokenObject] {
-        let bmdTokenContract = isDebug ? "0xe90051496b797f5a04196fF3196aa21ed36bC392" : "0xD9a2Dc793E1BBce46e2A7E766D7C76FDaF465E48"
-        let bmvTokenContract = isDebug ? "0xf388955809799d9c6dA4Bd124e3467A75F802C18" : "0x76eec17d8f2A0faD17C9DF63524799130834d9D2"
+        let bmdTokenContract = isDebug ? "0xb67e1a2BfDb54f5E30dAD2eF938D1468f37d2e6c" : "0xD9a2Dc793E1BBce46e2A7E766D7C76FDaF465E48"
+        let bmvTokenContract = isDebug ? "0xfb7E652eC2AbD8d0DADeD96F789eC0b20a0eDb41" : "0x76eec17d8f2A0faD17C9DF63524799130834d9D2"
 
         // BMD
         let bmd = TokenObject(
