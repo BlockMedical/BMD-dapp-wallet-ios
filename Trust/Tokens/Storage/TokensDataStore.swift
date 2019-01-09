@@ -58,7 +58,7 @@ class TokensDataStore {
             }
         }
 
-        let initialCoins = nativeCoin() + bmdCoins()
+        let initialCoins = nativeCoin() + blockmedCoins()
         for token in initialCoins {
             if let _ = getToken(for: token.contractAddress) {
             } else {
@@ -103,9 +103,9 @@ class TokensDataStore {
         }
     }
 
-    private func bmdCoins() -> [TokenObject] {
-        let bmdTokenContract = isDebug ? "0xb67e1a2BfDb54f5E30dAD2eF938D1468f37d2e6c" : "0xD9a2Dc793E1BBce46e2A7E766D7C76FDaF465E48"
-        let bmvTokenContract = isDebug ? "0xfb7E652eC2AbD8d0DADeD96F789eC0b20a0eDb41" : "0x76eec17d8f2A0faD17C9DF63524799130834d9D2"
+    private func blockmedCoins() -> [TokenObject] {
+        let bmdTokenContract = isDebug ? "0xb67e1a2BfDb54f5E30dAD2eF938D1468f37d2e6c" : "0x600DD4636BcBf0FA9C3F95714DCb02602a1AC763"
+        let bmvTokenContract = isDebug ? "0xfb7E652eC2AbD8d0DADeD96F789eC0b20a0eDb41" : "0x60507b69cCF9a30380c0cc7E781E278A355743F7"
 
         // BMD
         let bmd = TokenObject(
