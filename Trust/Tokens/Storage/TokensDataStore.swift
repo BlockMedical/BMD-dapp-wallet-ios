@@ -104,7 +104,7 @@ class TokensDataStore {
     }
 
     private func blockmedCoins() -> [TokenObject] {
-        let bmdTokenContract = isDebug ? "0xb67e1a2BfDb54f5E30dAD2eF938D1468f37d2e6c" : "0x600DD4636BcBf0FA9C3F95714DCb02602a1AC763"
+        let bmdTokenContract = isDebug ? "0xb67e1a2BfDb54f5E30dAD2eF938D1468f37d2e6c" : "0x5862A9935Aa62Ca329f679933491057413Ce2943"
         let bmvTokenContract = isDebug ? "0xfb7E652eC2AbD8d0DADeD96F789eC0b20a0eDb41" : "0x60507b69cCF9a30380c0cc7E781E278A355743F7"
 
         // BMD
