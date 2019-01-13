@@ -55,9 +55,9 @@ final class TokenViewCell: UITableViewCell {
         currencyAmountLabel.textAlignment = .right
 
         let marketPriceStackView = UIStackView(arrangedSubviews: [
-            contractAddressLabel,
             marketPrice,
             marketPercentageChange,
+            contractAddressLabel,
         ])
 
         containerForImageView.addSubview(symbolImageView)
@@ -87,6 +87,8 @@ final class TokenViewCell: UITableViewCell {
         symbolImageView.setContentHuggingPriority(.defaultLow, for: .horizontal)
         titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         titleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        contractAddressLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        contractAddressLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
         rightStackView.setContentHuggingPriority(.required, for: .horizontal)
         stackView.setContentHuggingPriority(.required, for: .horizontal)
@@ -155,7 +157,14 @@ final class TokenViewCell: UITableViewCell {
             contractAddressLabel.text = viewModel.contractAddress
             contractAddressLabel.textColor = viewModel.marketPriceTextColor
             contractAddressLabel.font = viewModel.marketPriceFont
-            contractAddressLabel.adjustsFontSizeToFitWidth = true
+
+            marketPrice.isHidden = true
+            marketPercentageChange.isHidden = true
+            contractAddressLabel.isHidden = false
+        } else {
+            marketPrice.isHidden = false
+            marketPercentageChange.isHidden = false
+            contractAddressLabel.isHidden = true
         }
 
         symbolImageView.kf.setImage(
