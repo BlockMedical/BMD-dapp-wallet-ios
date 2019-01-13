@@ -54,16 +54,33 @@ class TokensDataStore {
 
     // TODO: Strange situation, it displays old contract addresses, needs to investigate.
     private func removeOldCoins() {
+        let oldBMDAddress = "0xD9a2Dc793E1BBce46e2A7E766D7C76FDaF465E48"
+        let oldBMVAddress = "0x76eec17d8f2A0faD17C9DF63524799130834d9D2"
+
+        // Realm : Delete `TokenObject`
         var deleteTokens: [TokenObject]? = []
         for token in realm.objects(TokenObject.self) {
-            if token.contract.contains("0xD9a2Dc793E1BBce46e2A7E766D7C76FDaF465E48") ||
-                token.contract.contains("0x76eec17d8f2A0faD17C9DF63524799130834d9D2") {
+            if token.contract.lowercased().contains(oldBMDAddress.lowercased()) ||
+               token.contract.lowercased().contains(oldBMVAddress.lowercased()) {
                 deleteTokens?.append(token)
             }
         }
 
         if let deleteTokens = deleteTokens {
             delete(tokens: deleteTokens)
+        }
+
+        // Realm : Delete `CoinTicker`
+        if let oldBMDCoinTicker = coinTicker(by: EthereumAddress(string: oldBMDAddress)!) {
+            try? realm.write {
+                realm.delete(oldBMDCoinTicker)
+            }
+        }
+
+        if let oldBMVCoinTicker = coinTicker(by: EthereumAddress(string: oldBMVAddress)!) {
+            try? realm.write {
+                realm.delete(oldBMVCoinTicker)
+            }
         }
     }
 
