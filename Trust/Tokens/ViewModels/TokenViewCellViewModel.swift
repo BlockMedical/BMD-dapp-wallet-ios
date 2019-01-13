@@ -96,4 +96,11 @@ struct TokenViewCellViewModel {
     var imageURL: URL? {
         return viewModel.imageURL
     }
+    
+    // Contract Address
+    
+    var contractAddress: String {
+        return viewModel.contractAddress
+    }
+    
 }

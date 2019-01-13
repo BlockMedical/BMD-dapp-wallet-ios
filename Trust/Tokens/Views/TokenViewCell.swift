@@ -17,6 +17,12 @@ final class TokenViewCell: UITableViewCell {
     let containerForImageView = UIView()
     private var pendingTokenTransactionsObserver: NotificationToken?
 
+    lazy var contractAddressLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
     lazy var marketPrice: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -49,6 +55,7 @@ final class TokenViewCell: UITableViewCell {
         currencyAmountLabel.textAlignment = .right
 
         let marketPriceStackView = UIStackView(arrangedSubviews: [
+            contractAddressLabel,
             marketPrice,
             marketPercentageChange,
         ])
@@ -134,9 +141,26 @@ final class TokenViewCell: UITableViewCell {
         currencyAmountLabel.textColor = TokensLayout.cell.currencyAmountTextColor
         currencyAmountLabel.font = viewModel.currencyAmountFont
 
+        let title = viewModel.title
+        var placeholder: UIImage?
+        if title.contains("BMD") {
+            placeholder = UIImage(named: "BMD.png")
+        } else if title.contains("BMV") {
+            placeholder = UIImage(named: "BMV.png")
+        } else {
+            placeholder = viewModel.placeholderImage
+        }
+
+        if title.contains("BMD") || title.contains("BMV") {
+            contractAddressLabel.text = viewModel.contractAddress
+            contractAddressLabel.textColor = viewModel.marketPriceTextColor
+            contractAddressLabel.font = viewModel.marketPriceFont
+            contractAddressLabel.adjustsFontSizeToFitWidth = true
+        }
+
         symbolImageView.kf.setImage(
             with: viewModel.imageURL,
-            placeholder: viewModel.placeholderImage
+            placeholder: placeholder
         )
 
         backgroundColor = viewModel.backgroundColor

@@ -33,6 +33,10 @@ struct TokenObjectViewModel {
         }
     }
 
+    var contractAddress: String {
+        return token.contract
+    }
+
     private var imagePath: String {
         let formatter = ImageURLFormatter()
         switch token.type {
