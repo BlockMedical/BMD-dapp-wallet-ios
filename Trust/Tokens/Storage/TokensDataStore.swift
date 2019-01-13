@@ -48,7 +48,23 @@ class TokensDataStore {
     ) {
         self.realm = realm
         self.account = account
+        self.removeOldCoins()
         self.addNativeCoins()
+    }
+
+    // TODO: Strange situation, it displays old contract addresses, needs to investigate.
+    private func removeOldCoins() {
+        var deleteTokens: [TokenObject]? = []
+        for token in realm.objects(TokenObject.self) {
+            if token.contract.contains("0xD9a2Dc793E1BBce46e2A7E766D7C76FDaF465E48") ||
+                token.contract.contains("0x76eec17d8f2A0faD17C9DF63524799130834d9D2") {
+                deleteTokens?.append(token)
+            }
+        }
+
+        if let deleteTokens = deleteTokens {
+            delete(tokens: deleteTokens)
+        }
     }
 
     private func addNativeCoins() {
