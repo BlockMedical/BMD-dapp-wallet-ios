@@ -57,7 +57,7 @@ final class TransactionConfigurator {
 
         let data: Data = TransactionConfigurator.data(for: transaction, from: account.address)
         let calculatedGasLimit = transaction.gasLimit ?? TransactionConfigurator.gasLimit(for: transaction.transfer.type)
-        let calculatedGasPrice = min(max(transaction.gasPrice ?? chainState.gasPrice ?? GasPriceConfiguration.default, GasPriceConfiguration.min), GasPriceConfiguration.max)
+        let calculatedGasPrice = min(max(transaction.gasPrice ?? chainState.gasPrice ?? GasPriceConfiguration.blockMedDefault, GasPriceConfiguration.min), GasPriceConfiguration.max)
 
         let nonceProvider = GetNonceProvider(storage: session.transactionsStorage, server: server, address: account.address)
         self.nonceProvider = nonceProvider

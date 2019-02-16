@@ -33,8 +33,8 @@ struct HelpUsViewModel {
 
     var activityItems: [Any] {
         return [
-            sharingText[Int(arc4random_uniform(UInt32(sharingText.count)))],
-            URL(string: Constants.website)!,
+            "I am able to register data to claim ownership and get rewards when people access them. Check it out.",
+            URL(string: Constants.dappsBrowserURL)!,
         ]
     }
 }

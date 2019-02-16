@@ -17,6 +17,12 @@ final class TokenViewCell: UITableViewCell {
     let containerForImageView = UIView()
     private var pendingTokenTransactionsObserver: NotificationToken?
 
+    lazy var contractAddressLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
     lazy var marketPrice: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -51,6 +57,7 @@ final class TokenViewCell: UITableViewCell {
         let marketPriceStackView = UIStackView(arrangedSubviews: [
             marketPrice,
             marketPercentageChange,
+            contractAddressLabel,
         ])
 
         containerForImageView.addSubview(symbolImageView)
@@ -80,6 +87,8 @@ final class TokenViewCell: UITableViewCell {
         symbolImageView.setContentHuggingPriority(.defaultLow, for: .horizontal)
         titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         titleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        contractAddressLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        contractAddressLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
         rightStackView.setContentHuggingPriority(.required, for: .horizontal)
         stackView.setContentHuggingPriority(.required, for: .horizontal)
@@ -134,9 +143,33 @@ final class TokenViewCell: UITableViewCell {
         currencyAmountLabel.textColor = TokensLayout.cell.currencyAmountTextColor
         currencyAmountLabel.font = viewModel.currencyAmountFont
 
+        let title = viewModel.title
+        var placeholder: UIImage?
+        if title.contains("BMD") {
+            placeholder = UIImage(named: "BMD.png")
+        } else if title.contains("BMV") {
+            placeholder = UIImage(named: "BMV.png")
+        } else {
+            placeholder = viewModel.placeholderImage
+        }
+
+        if title.contains("BMD") || title.contains("BMV") {
+            contractAddressLabel.text = viewModel.contractAddress
+            contractAddressLabel.textColor = viewModel.marketPriceTextColor
+            contractAddressLabel.font = viewModel.marketPriceFont
+
+            marketPrice.isHidden = true
+            marketPercentageChange.isHidden = true
+            contractAddressLabel.isHidden = false
+        } else {
+            marketPrice.isHidden = false
+            marketPercentageChange.isHidden = false
+            contractAddressLabel.isHidden = true
+        }
+
         symbolImageView.kf.setImage(
             with: viewModel.imageURL,
-            placeholder: viewModel.placeholderImage
+            placeholder: placeholder
         )
 
         backgroundColor = viewModel.backgroundColor

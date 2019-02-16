@@ -52,11 +52,10 @@ final class AboutViewController: FormViewController {
                 $0.value = Bundle.main.fullVersion
                 $0.disabled = true
             }
-
+        
             +++ Section(R.string.localizable.poweredBy())
-
+            
             <<< linkProvider(type: .infura)
-            <<< linkProvider(type: .dappsOpenSea)
     }
 
     private func linkProvider(
@@ -77,8 +76,8 @@ final class AboutViewController: FormViewController {
     func sendUsEmail() {
         let composerController = MFMailComposeViewController()
         composerController.mailComposeDelegate = self
-        composerController.setToRecipients([Constants.supportEmail])
-        composerController.setSubject(R.string.localizable.settingsFeedbackEmailTitle())
+        composerController.setToRecipients([Constants.blockMedSupportEmail])
+        composerController.setSubject("BlockMed Feedback")
         composerController.setMessageBody(emailTemplate(), isHTML: false)
 
         if MFMailComposeViewController.canSendMail() {
@@ -93,7 +92,7 @@ final class AboutViewController: FormViewController {
         Helpful information to developers:
         iOS Version: \(UIDevice.current.systemVersion)
         Device Model: \(UIDevice.current.model)
-        Trust Version: \(Bundle.main.fullVersion)
+        BlockMed Version: \(Bundle.main.fullVersion)
         Current locale: \(Locale.preferredLanguages.first ?? "")
         """
     }

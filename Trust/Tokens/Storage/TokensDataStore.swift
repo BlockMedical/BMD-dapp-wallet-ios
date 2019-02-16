@@ -48,7 +48,40 @@ class TokensDataStore {
     ) {
         self.realm = realm
         self.account = account
+        self.removeOldCoins()
         self.addNativeCoins()
+    }
+
+    // TODO: Strange situation, it displays old contract addresses, needs to investigate.
+    private func removeOldCoins() {
+        let oldBMDAddress = "0xD9a2Dc793E1BBce46e2A7E766D7C76FDaF465E48"
+        let oldBMVAddress = "0x76eec17d8f2A0faD17C9DF63524799130834d9D2"
+
+        // Realm : Delete `TokenObject`
+        var deleteTokens: [TokenObject]? = []
+        for token in realm.objects(TokenObject.self) {
+            if token.contract.lowercased().contains(oldBMDAddress.lowercased()) ||
+               token.contract.lowercased().contains(oldBMVAddress.lowercased()) {
+                deleteTokens?.append(token)
+            }
+        }
+
+        if let deleteTokens = deleteTokens {
+            delete(tokens: deleteTokens)
+        }
+
+        // Realm : Delete `CoinTicker`
+        if let oldBMDCoinTicker = coinTicker(by: EthereumAddress(string: oldBMDAddress)!) {
+            try? realm.write {
+                realm.delete(oldBMDCoinTicker)
+            }
+        }
+
+        if let oldBMVCoinTicker = coinTicker(by: EthereumAddress(string: oldBMVAddress)!) {
+            try? realm.write {
+                realm.delete(oldBMVCoinTicker)
+            }
+        }
     }
 
     private func addNativeCoins() {
@@ -58,7 +91,7 @@ class TokensDataStore {
             }
         }
 
-        let initialCoins = nativeCoin() + bmdCoins()
+        let initialCoins = nativeCoin() + blockmedCoins()
         for token in initialCoins {
             if let _ = getToken(for: token.contractAddress) {
             } else {
@@ -103,12 +136,13 @@ class TokensDataStore {
         }
     }
 
-    private func bmdCoins() -> [TokenObject] {
-        let erc20TokenConstract = isDebug ? "0xe90051496b797f5a04196fF3196aa21ed36bC392" : "0xD9a2Dc793E1BBce46e2A7E766D7C76FDaF465E48"
+    private func blockmedCoins() -> [TokenObject] {
+        let bmdTokenContract = isDebug ? "0xb67e1a2BfDb54f5E30dAD2eF938D1468f37d2e6c" : "0x5862A9935Aa62Ca329f679933491057413Ce2943"
+        let bmvTokenContract = isDebug ? "0xfb7E652eC2AbD8d0DADeD96F789eC0b20a0eDb41" : "0x60507b69cCF9a30380c0cc7E781E278A355743F7"
 
         // BMD
         let bmd = TokenObject(
-            contract: erc20TokenConstract,
+            contract: bmdTokenContract,
             name: "Utility-BlockMed",
             coin: .ethereum,
             type: .ERC20,
@@ -118,7 +152,20 @@ class TokensDataStore {
             isCustom: true,
             isDisabled: false
         )
-        return [bmd]
+
+        // BMV
+        let bmv = TokenObject(
+            contract: bmvTokenContract,
+            name: "BlockMed Venture",
+            coin: .ethereum,
+            type: .ERC20,
+            symbol: "BMV",
+            decimals: 18,
+            value: "0",
+            isCustom: true,
+            isDisabled: false
+        )
+        return [bmd, bmv]
     }
 
     static func token(for server: RPCServer) -> TokenObject {

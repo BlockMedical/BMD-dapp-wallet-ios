@@ -46,7 +46,7 @@ final class TokensViewModel: NSObject {
     }
 
     var footerTitle: String {
-        return NSLocalizedString("tokens.footer.label.title", value: "Tokens will appear automagically. Tap + to add manually.", comment: "")
+        return NSLocalizedString("tokens.footer.label.title", value: "Tokens will appear automatically. Tap + to add manually.", comment: "")
     }
 
     var footerTextColor: UIColor {

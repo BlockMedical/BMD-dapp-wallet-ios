@@ -97,9 +97,9 @@ final class BrowserCoordinator: NSObject, Coordinator {
             case .blockMed:
                 title = "BlockMed"
             case .registerFile:
-                title = "Register File"
+                title = "Register"
             case .accessFile:
-                title = "Access File"
+                title = "Access"
             }
             navigationBar.titleLabel.text = title
         }
@@ -318,6 +318,18 @@ extension BrowserCoordinator: BrowserViewControllerDelegate {
 
     func didVisitURL(url: URL, title: String) {
         historyStore.record(url: url, title: title)
+    }
+
+    func shouldOpenCustomWeb(url: URL) {
+        let coordinator = CustomWebCoordinator(navigateAction: .presentAction, url: url)
+        coordinator.didCompleted = { [unowned self] in
+            coordinator.didCompleted = nil
+            self.removeCoordinator(coordinator)
+            self.navigationController.dismiss(animated: true)
+        }
+        addCoordinator(coordinator)
+        coordinator.start()
+        navigationController.present(coordinator.navigationController, animated: true)
     }
 }
 

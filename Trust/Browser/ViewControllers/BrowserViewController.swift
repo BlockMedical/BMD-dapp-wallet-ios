@@ -20,6 +20,7 @@ protocol BrowserViewControllerDelegate: class {
     func didCall(action: DappAction, callbackID: Int)
     func runAction(action: BrowserAction)
     func didVisitURL(url: URL, title: String)
+    func shouldOpenCustomWeb(url: URL)
 }
 
 final class BrowserViewController: UIViewController {
@@ -55,7 +56,7 @@ final class BrowserViewController: UIViewController {
     }()
 
     private var bridge = WebViewJavascriptBridge()
-    private var JSHandler = [String: String]()
+    private var jsBridgeHandler = [String: [String: String]]()
 
     lazy var errorView: BrowserErrorView = {
         let errorView = BrowserErrorView()
@@ -273,25 +274,40 @@ final class BrowserViewController: UIViewController {
         self.bridge = WebViewJavascriptBridge(webView)
         self.bridge.setWebViewDelegate(self)
 
+        // File List Item
         self.bridge.registerHandler("FileListItemAccessButtonDidTap") { (data, callback) in
-            setJSHandlerEvent(data: data)
+            setJsBridgeHandlerEvent(data: data)
 
             if let callback = callback {
                 callback("FileListItemAccessButtonDidTap callback")
             }
         }
 
+        self.bridge.registerHandler("FileListItemDownloadFileButtonDidTap") { [unowned self] (data, callback) in
+            if let urlString = data as? String, let url = URL(string: urlString) {
+                self.delegate?.shouldOpenCustomWeb(url: url)
+            }
+
+            if let callback = callback {
+                callback("FileListItemDownloadFileButtonDidTap callback")
+            }
+        }
+
+        // File Register
         self.bridge.registerHandler("FileRegisterButtonDidTap") { (data, callback) in
-            setJSHandlerEvent(data: data)
+            setJsBridgeHandlerEvent(data: data)
 
             if let callback = callback {
-                callback("FileListItemAccessButtonDidTap callback")
+                callback("FileRegisterButtonDidTap callback")
             }
         }
 
-        func setJSHandlerEvent(data: Any?) {
-            if let data = data as? [String: String], let key = data.keys.first, let value = data[key], JSHandler[key] == nil {
-                JSHandler[key] = value
+        func setJsBridgeHandlerEvent(data: Any?) {
+            if let data = data as? [String: [String: String]],
+                let key = data.keys.first,
+                let value = data[key],
+                jsBridgeHandler[key] == nil {
+                jsBridgeHandler[key] = value
             }
         }
 
@@ -360,22 +376,22 @@ extension BrowserViewController {
 
     @objc func transactionConfirmed(note: Notification) {
         // TODO: should fix twice notifications
-        print("### JSHandler : \(JSHandler)")
-        if let txID = note.object as? String, !txID.isEmpty, JSHandler[txID] != nil, let type = JSHandler[txID] {
-            // TODO: remove timing
-            JSHandler.removeValue(forKey: txID)
-            print("### txID : \(txID)")
-
+        if let txID = note.object as? String, !txID.isEmpty, jsBridgeHandler[txID] != nil,
+            let value = jsBridgeHandler[txID],
+            let type = value["type"] {
             var eventKey = ""
-            let params = ["ipfsMetadataHash": txID]
+            var params = ["": ""]
             switch type {
             case "accessFile":
-                eventKey = "FileListItemFetchKeyForIPFS"
+                eventKey = "FileListItemFetchKeyForIPFS-" + "\(value["hashId"] ?? "")"
+                params = ["ipfsMetadataHash": txID]
             case "registerFile":
                 eventKey = "FileRegisterCompleted"
+                params = ["ipfsMetadataHash": txID]
             default:
                 break
             }
+            jsBridgeHandler.removeValue(forKey: txID)
             bridge.callHandler(eventKey, data: params, responseCallback: { (response) in
                 if let response = response {
                     print("### callHandler response : \(response)")

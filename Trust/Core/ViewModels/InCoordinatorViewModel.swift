@@ -23,22 +23,22 @@ struct InCoordinatorViewModel {
     var browserBarItem: UITabBarItem {
         return UITabBarItem(
             title: "BlockMed",
-            image: R.image.dapps_icon(),
+            image: R.image.tabbar_main(),
             selectedImage: nil
         )
     }
 
     var registerFileBarItem: UITabBarItem {
         return UITabBarItem(
-            title: "Register File",
-            image: R.image.dapps_icon(),
+            title: "Register",
+            image: R.image.tabbar_register(),
             selectedImage: nil
         )
     }
-    
+
     var accessFileBarItem: UITabBarItem {
         return UITabBarItem(
-            title: "Access File",
+            title: "Access",
             image: R.image.dapps_icon(),
             selectedImage: nil
         )
@@ -47,7 +47,7 @@ struct InCoordinatorViewModel {
     var walletBarItem: UITabBarItem {
         return UITabBarItem(
             title: NSLocalizedString("wallet.navigation.title", value: "Wallet", comment: ""),
-            image: R.image.wallet_tab_icon(),
+            image: R.image.tabbar_wallet(),
             selectedImage: nil
         )
     }
