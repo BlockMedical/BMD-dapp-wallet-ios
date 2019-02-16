@@ -33,13 +33,7 @@ public struct Constants {
 
 public struct BlockMedConstants {
     // BlockMed
-    #if DEBUG
-    public static let blockMedBaseURL = "https://ipfs-dev.blcksync.info/"
-    #elseif BETA
-    public static let blockMedBaseURL = "https://ipfs-dev.blcksync.info/"
-    #else
-    public static let blockMedBaseURL = "https://ipfs.blcksync.info/"
-    #endif
+    public static let blockMedBaseURL = "https://ipfs.blockmed.ai/"
 }
 
 public struct UnitConfiguration {
