@@ -33,7 +33,7 @@ public struct Constants {
 
 public struct BlockMedConstants {
     // BlockMed
-    public static let blockMedBaseURL = "https://ipfs.blockmed.ai/"
+    public static let blockMedBaseURL = "https://ipfs.blockmed.me/"
 }
 
 public struct UnitConfiguration {
