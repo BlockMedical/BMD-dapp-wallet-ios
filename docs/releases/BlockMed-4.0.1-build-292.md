@@ -1,5 +1,7 @@
 # BlockMed iOS 4.0.1 (Build 292) Release Record
 
+> Superseded: TestFlight crash reports showed that build 292 crashed during Realm startup because changing the product name also changed the Swift module name from `Trust` to `BlockMed`. See [build 293](BlockMed-4.0.1-build-293.md) for the data-compatible correction.
+
 Date completed: July 13, 2026 (America/Los_Angeles)  
 App Store Connect app: BlockMed  
 Apple app ID: `1447441652`  
