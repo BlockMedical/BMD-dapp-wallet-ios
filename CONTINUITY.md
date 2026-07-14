@@ -43,9 +43,24 @@ Keychain) unaffected — verified on the owner's iPhone 12: wallet intact,
 
 - **iCloud Desktop sync destroys `Pods/` symlinks** (it did overnight
   2026-07-13→14; caused ed25519.h "file not found" build failures).
-  Cure: `pod install`. The uploaded 298 binary is immune; only local builds
-  are affected. CLAUDE.md's claim that the iCloud issue was "resolved" is
-  wrong for symlinks.
+  The uploaded 298 binary and TestFlight are immune; only local builds are
+  affected. Symptoms of iCloud damage, any of: build errors like
+  `'ed25519-donna/ed25519.h' file not found` / `Could not build module
+  'TrezorCrypto'`; `Pods/Headers/` missing or empty; duplicate folders named
+  `Sources 2` / `Sources 3` inside `Pods/`. **Recovery recipe (2 min,
+  fixes all of it):**
+
+  ```
+  cd ~/Desktop/wireless-medical/BlockMed-iOS
+  rm -rf Pods
+  pod install
+  ```
+
+  Then build again from `Trust.xcworkspace`. Source files, git history, and
+  `Vendor/TrezorCrypto` (the git submodule) have never been damaged by this —
+  do NOT start debugging code if you see those symptoms; reinstall pods
+  first. `Pods/` is intentionally excluded from the off-Mac mirror because
+  it's regenerable and symlinks don't survive the round-trip anyway.
 - Podfile now: platform iOS 16.0, `pod 'RealmSwift', '~> 20.0'`, CDN spec
   source. CocoaPods 1.16.2 on the Mac.
 - Simulator builds now possible again (Realm 20 ships proper xcframeworks) —
