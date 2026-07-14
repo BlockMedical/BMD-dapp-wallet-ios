@@ -420,7 +420,7 @@ class EtherKeystore: Keystore {
                     object.balance = balance
                 }
             }
-            storage.realm.add(object, update: true)
+            storage.realm.add(object, update: .all)
         }
     }
 }

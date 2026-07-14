@@ -16,7 +16,7 @@ struct ENSStore {
 
     func add(record: ENSRecord) {
         try? realm.write {
-            realm.add([record], update: true)
+            realm.add([record], update: .all)
         }
     }
 

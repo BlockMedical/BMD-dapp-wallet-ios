@@ -24,16 +24,25 @@ struct RealmConfiguration {
 
 enum RealmRecovery {
     static func open(configuration: Realm.Configuration, recoveryKey: String) -> Realm? {
+        NSLog("BM-DIAG R1 open %@ key=%@", configuration.fileURL?.lastPathComponent ?? "?", recoveryKey)
         if !UserDefaults.standard.bool(forKey: recoveryKey) {
+            NSLog("BM-DIAG R2 first-launch quarantine begins")
             guard quarantineFiles(configuration: configuration) else { return nil }
             UserDefaults.standard.set(true, forKey: recoveryKey)
+            NSLog("BM-DIAG R3 first-launch quarantine done")
         }
 
         do {
-            return try Realm(configuration: configuration)
+            NSLog("BM-DIAG R4 try Realm open...")
+            let realm = try Realm(configuration: configuration)
+            NSLog("BM-DIAG R5 Realm open OK")
+            return realm
         } catch {
+            NSLog("BM-DIAG R4x Realm open FAILED: %@", String(describing: error))
             guard quarantineFiles(configuration: configuration) else { return nil }
-            return try? Realm(configuration: configuration)
+            let retried = try? Realm(configuration: configuration)
+            NSLog("BM-DIAG R6 retry after quarantine: %@", retried == nil ? "FAILED" : "OK")
+            return retried
         }
     }
 

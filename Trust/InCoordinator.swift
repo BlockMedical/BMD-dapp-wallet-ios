@@ -139,18 +139,22 @@ class InCoordinator: Coordinator {
     }
 
     func showTabBar(for account: WalletInfo) {
+        NSLog("BM-DIAG T1 showTabBar begin")
 
         let migration = MigrationInitializer(account: account)
         migration.perform()
 
         let sharedMigration = SharedMigrationInitializer()
         sharedMigration.perform()
+        NSLog("BM-DIAG T2 migration configs ready")
 
         guard let realm = self.realm(for: migration.config),
             let sharedRealm = self.realm(for: sharedMigration.config) else {
+                NSLog("BM-DIAG T2x per-wallet realm recovery FAILED")
                 navigationController.viewControllers.first?.displayError(error: InCoordinatorError.databaseRecoveryFailed)
                 return
         }
+        NSLog("BM-DIAG T3 wallet realms open")
 
         let viewModel = InCoordinatorViewModel(config: config)
 
@@ -160,17 +164,22 @@ class InCoordinator: Coordinator {
             sharedRealm: sharedRealm,
             config: config
         )
+        NSLog("BM-DIAG T4 session created")
         session.transactionsStorage.removeTransactions(for: [.failed, .unknown])
+        NSLog("BM-DIAG T5 stale transactions removed")
 
         // Create coins based on supported networks
         let coins = Config.current.servers
         if let wallet = account.currentWallet, account.accounts.count < coins.count, account.mainWallet {
+            NSLog("BM-DIAG T6 adding missing coin accounts (have %d, want %d)", account.accounts.count, coins.count)
             let derivationPaths = coins.map { $0.derivationPath(at: 0) }
             let _ = self.keystore.addAccount(to: wallet, derivationPaths: derivationPaths)
+            NSLog("BM-DIAG T7 addAccount done")
         }
 
         let tabBarController = TabBarController()
         tabBarController.tabBar.isTranslucent = false
+        NSLog("BM-DIAG T8 building tab coordinators")
 
         let browserCoordinator = BrowserCoordinator(session: session, keystore: keystore, navigator: navigator, sharedRealm: sharedRealm, type: .blockMed)
         browserCoordinator.delegate = self
@@ -224,8 +233,10 @@ class InCoordinator: Coordinator {
         navigationController.setViewControllers([tabBarController], animated: false)
         navigationController.setNavigationBarHidden(true, animated: false)
 
+        NSLog("BM-DIAG T9 tab bar assembled")
         showTab(.wallet(.none))
         keystore.recentlyUsedWallet = account
+        NSLog("BM-DIAG T10 showTabBar end")
 
         let localSchemeCoordinator = LocalSchemeCoordinator(
             navigationController: navigationController,
@@ -361,7 +372,7 @@ class InCoordinator: Coordinator {
         let filename = config.fileURL?.lastPathComponent ?? "unknown.realm"
         return RealmRecovery.open(
             configuration: config,
-            recoveryKey: "BlockMedRealmRecovery297.\(filename)"
+            recoveryKey: "BlockMedRealmRecovery298.\(filename)"
         )
     }
 

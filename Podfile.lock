@@ -32,11 +32,11 @@ PODS:
   - R.swift (4.0.0):
     - R.swift.Library (~> 4.0.0)
   - R.swift.Library (4.0.0)
-  - Realm (3.7.6):
-    - Realm/Headers (= 3.7.6)
-  - Realm/Headers (3.7.6)
-  - RealmSwift (3.7.6):
-    - Realm (= 3.7.6)
+  - Realm (20.0.4):
+    - Realm/Headers (= 20.0.4)
+  - Realm/Headers (20.0.4)
+  - RealmSwift (20.0.4):
+    - Realm (= 20.0.4)
   - Result (3.2.4)
   - SAMKeychain (1.5.3)
   - SeedStackViewController (0.4.0)
@@ -73,7 +73,7 @@ DEPENDENCIES:
   - PromiseKit (~> 6.0)
   - QRCodeReaderViewController (from `https://github.com/yannickl/QRCodeReaderViewController.git`, branch `master`)
   - R.swift
-  - RealmSwift
+  - RealmSwift (~> 20.0)
   - SAMKeychain
   - SeedStackViewController
   - StatefulViewController
@@ -102,8 +102,6 @@ SPEC REPOS:
     - PromiseKit
     - R.swift
     - R.swift.Library
-    - Realm
-    - RealmSwift
     - Result
     - SAMKeychain
     - SeedStackViewController
@@ -112,6 +110,9 @@ SPEC REPOS:
     - SwiftLint
     - URLNavigator
     - WebViewJavascriptBridge
+  trunk:
+    - Realm
+    - RealmSwift
 
 EXTERNAL SOURCES:
   QRCodeReaderViewController:
@@ -165,8 +166,8 @@ SPEC CHECKSUMS:
   QRCodeReaderViewController: e8f27d035b3e72b1d4b1c61ff66458287e3be0ff
   R.swift: d6a5ec2f55a8441dc0ed9f1f8b37d7d11ae85c66
   R.swift.Library: c3af34921024333546e23b70e70d0b4e0cffca75
-  Realm: 9eaecad54712d6246d08ba34c10f354e4715d7d3
-  RealmSwift: 1fe08b4ebaeeaacf17f9ba0343f7b25c9fc31fa6
+  Realm: 1fca83c42ac1d5c7767974882c8de5a7abca4d89
+  RealmSwift: 84f36320f6133dea78d05c55bb46bba4387d6828
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
   SeedStackViewController: 45e88ca1493a610e74d661d3feced7098f72dbd3
@@ -181,6 +182,6 @@ SPEC CHECKSUMS:
   URLNavigator: 2357a32f3b3787b748bf87deb927761f8b0f7f53
   WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
 
-PODFILE CHECKSUM: 4a78a1ed35eeb58c7368737a9cffe342bfaa0923
+PODFILE CHECKSUM: f018150e9b816211a701347a3f8f1b0522b857bd
 
 COCOAPODS: 1.16.2

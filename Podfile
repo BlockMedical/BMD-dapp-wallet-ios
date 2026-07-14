@@ -1,6 +1,6 @@
-platform :ios, '10.0'
+platform :ios, '16.0'
 inhibit_all_warnings!
-source 'https://github.com/CocoaPods/Specs.git'
+source 'https://cdn.cocoapods.org/'
 
 target 'Trust' do
   use_frameworks!
@@ -17,7 +17,11 @@ target 'Trust' do
   pod 'KeychainSwift'
   pod 'SwiftLint'
   pod 'SeedStackViewController'
-  pod 'RealmSwift'
+  # Realm 3.7.6 (2018) cannot register Swift object properties when compiled
+  # with the Xcode 26 toolchain — every 4.0.1 launch threw RLMException
+  # "Primary key property 'id' does not exist on object 'WalletObject'".
+  # v20.x is the first line that officially supports Xcode 26.
+  pod 'RealmSwift', '~> 20.0'
   pod 'Moya', '~> 10.0.1'
   pod 'CryptoSwift', '~> 0.10.0'
   pod 'Kingfisher', '~> 4.0'
