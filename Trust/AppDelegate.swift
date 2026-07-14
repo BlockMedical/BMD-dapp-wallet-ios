@@ -18,12 +18,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
         let sharedMigration = SharedMigrationInitializer()
         sharedMigration.perform()
-        guard let realm = openSharedRealm(configuration: sharedMigration.config) else {
+        guard let realm = RealmRecovery.open(
+            configuration: sharedMigration.config,
+            recoveryKey: "BlockMedRealmRecovery296Completed"
+        ) else {
             showStorageRecoveryError()
             return true
         }
         let walletStorage = WalletStorage(realm: realm)
-        let keystore = EtherKeystore(storage: walletStorage)
+        guard let keystore = try? EtherKeystore(storage: walletStorage) else {
+            showStorageRecoveryError()
+            return true
+        }
 
         coordinator = AppCoordinator(window: window!, keystore: keystore, navigator: urlNavigatorCoordinator)
         coordinator.start()
@@ -31,53 +37,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         protectionCoordinator.didFinishLaunchingWithOptions()
         urlNavigatorCoordinator.branch.didFinishLaunchingWithOptions(launchOptions: launchOptions)
         return true
-    }
-
-    private func openSharedRealm(configuration: Realm.Configuration) -> Realm? {
-        let recoveryKey = "BlockMedRealmRecovery296Completed"
-        if !UserDefaults.standard.bool(forKey: recoveryKey) {
-            guard quarantineRealmFiles(configuration: configuration) else { return nil }
-            UserDefaults.standard.set(true, forKey: recoveryKey)
-        }
-
-        do {
-            return try Realm(configuration: configuration)
-        } catch {
-            guard quarantineRealmFiles(configuration: configuration) else { return nil }
-            return try? Realm(configuration: configuration)
-        }
-    }
-
-    private func quarantineRealmFiles(configuration: Realm.Configuration) -> Bool {
-        guard let realmURL = configuration.fileURL else { return false }
-
-        let fileManager = FileManager.default
-        let candidates = [
-            realmURL,
-            URL(fileURLWithPath: realmURL.path + ".lock"),
-            URL(fileURLWithPath: realmURL.path + ".note"),
-            URL(fileURLWithPath: realmURL.path + ".management")
-        ].filter { fileManager.fileExists(atPath: $0.path) }
-
-        guard !candidates.isEmpty else { return true }
-
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyyMMdd-HHmmss"
-        let backupDirectory = realmURL.deletingLastPathComponent()
-            .appendingPathComponent("BlockMed-Realm-Recovery-\(formatter.string(from: Date()))", isDirectory: true)
-
-        do {
-            try fileManager.createDirectory(at: backupDirectory, withIntermediateDirectories: true)
-            for sourceURL in candidates {
-                try fileManager.moveItem(
-                    at: sourceURL,
-                    to: backupDirectory.appendingPathComponent(sourceURL.lastPathComponent)
-                )
-            }
-            return true
-        } catch {
-            return false
-        }
     }
 
     private func showStorageRecoveryError() {

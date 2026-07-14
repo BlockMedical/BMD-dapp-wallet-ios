@@ -6,7 +6,7 @@ Bundle ID: `ai.blockmed.wallet`
 
 ## Status
 
-Build 295 stopped the fatal Realm exception but remained indefinitely on a white screen while synchronously copying the legacy Realm files. Build 296 replaces file copying with same-volume moves and quarantines the legacy shared Realm before attempting to open it.
+Build 296 failed the in-place TestFlight launch check and crashed immediately on the affected iPhone. Xcode identified the continuing `swift_unexpectedError` startup signature. Build 296 protected only the shared Realm; startup then reached the still-forced per-wallet Realm open. Build 297 supersedes it, and build 296 must not be submitted to App Review.
 
 ## Correction
 

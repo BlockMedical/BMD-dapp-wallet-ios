@@ -146,8 +146,11 @@ class InCoordinator: Coordinator {
         let sharedMigration = SharedMigrationInitializer()
         sharedMigration.perform()
 
-        let realm = self.realm(for: migration.config)
-        let sharedRealm = self.realm(for: sharedMigration.config)
+        guard let realm = self.realm(for: migration.config),
+            let sharedRealm = self.realm(for: sharedMigration.config) else {
+                navigationController.viewControllers.first?.displayError(error: InCoordinatorError.databaseRecoveryFailed)
+                return
+        }
 
         let viewModel = InCoordinatorViewModel(config: config)
 
@@ -354,8 +357,12 @@ class InCoordinator: Coordinator {
         tokensCoordinator?.transactionsStore.add([transaction])
     }
 
-    private func realm(for config: Realm.Configuration) -> Realm {
-        return try! Realm(configuration: config)
+    private func realm(for config: Realm.Configuration) -> Realm? {
+        let filename = config.fileURL?.lastPathComponent ?? "unknown.realm"
+        return RealmRecovery.open(
+            configuration: config,
+            recoveryKey: "BlockMedRealmRecovery297.\(filename)"
+        )
     }
 
     @discardableResult
