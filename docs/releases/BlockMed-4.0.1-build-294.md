@@ -7,7 +7,7 @@ Apple team: `AYN7MX9997`
 
 ## Status
 
-Build 294 supersedes crash-affected builds 292 and 293. The source fix is complete, the production iPhone Release build succeeds, and a versioned archive exists at `build/BlockMed-4.0.1-294.xcarchive`.
+Build 294 failed the in-place TestFlight launch check on July 13, 2026: it still crashed immediately on the affected iPhone. It must not be submitted to App Review. Build 295 supersedes it.
 
 The archive reports version `4.0.1` and build `294`. Xcode signed and uploaded it successfully at approximately 10:04 PM PDT, and Apple reported that the package is processing. Final App Review submission remains an owner action.
 
@@ -41,7 +41,7 @@ The failing statement remains the forced `try! Realm(configuration:)` open of `s
 - Archive creation: successful
 - Archive metadata: confirmed `4.0.1 (294)`
 - TestFlight upload: successful; Apple package processing started
-- In-place TestFlight launch: pending build processing and owner verification
+- In-place TestFlight launch: **failed; immediate crash confirmed by owner**
 
 ## Required TestFlight test
 

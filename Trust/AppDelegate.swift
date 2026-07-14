@@ -18,20 +18,84 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
         let sharedMigration = SharedMigrationInitializer()
         sharedMigration.perform()
-        let realm = try! Realm(configuration: sharedMigration.config)
+        guard let realm = openSharedRealm(configuration: sharedMigration.config) else {
+            showStorageRecoveryError()
+            return true
+        }
         let walletStorage = WalletStorage(realm: realm)
         let keystore = EtherKeystore(storage: walletStorage)
 
         coordinator = AppCoordinator(window: window!, keystore: keystore, navigator: urlNavigatorCoordinator)
         coordinator.start()
 
-        if !UIApplication.shared.isProtectedDataAvailable {
-            fatalError()
-        }
-
         protectionCoordinator.didFinishLaunchingWithOptions()
         urlNavigatorCoordinator.branch.didFinishLaunchingWithOptions(launchOptions: launchOptions)
         return true
+    }
+
+    private func openSharedRealm(configuration: Realm.Configuration) -> Realm? {
+        do {
+            return try Realm(configuration: configuration)
+        } catch {
+            guard preserveAndRemoveRealmFiles(configuration: configuration) else { return nil }
+            return try? Realm(configuration: configuration)
+        }
+    }
+
+    private func preserveAndRemoveRealmFiles(configuration: Realm.Configuration) -> Bool {
+        guard let realmURL = configuration.fileURL else { return false }
+
+        let fileManager = FileManager.default
+        let candidates = [
+            realmURL,
+            URL(fileURLWithPath: realmURL.path + ".lock"),
+            URL(fileURLWithPath: realmURL.path + ".note"),
+            URL(fileURLWithPath: realmURL.path + ".management")
+        ].filter { fileManager.fileExists(atPath: $0.path) }
+
+        guard !candidates.isEmpty else { return true }
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd-HHmmss"
+        let backupDirectory = realmURL.deletingLastPathComponent()
+            .appendingPathComponent("BlockMed-Realm-Recovery-\(formatter.string(from: Date()))", isDirectory: true)
+
+        do {
+            try fileManager.createDirectory(at: backupDirectory, withIntermediateDirectories: true)
+            for sourceURL in candidates {
+                try fileManager.copyItem(
+                    at: sourceURL,
+                    to: backupDirectory.appendingPathComponent(sourceURL.lastPathComponent)
+                )
+            }
+            for sourceURL in candidates {
+                try fileManager.removeItem(at: sourceURL)
+            }
+            return true
+        } catch {
+            return false
+        }
+    }
+
+    private func showStorageRecoveryError() {
+        let viewController = UIViewController()
+        viewController.view.backgroundColor = .white
+
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.text = "BlockMed could not safely recover its local database. Your wallet files were not deleted. Please contact BlockMed support."
+        viewController.view.addSubview(label)
+
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor, constant: 24),
+            label.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor, constant: -24),
+            label.centerYAnchor.constraint(equalTo: viewController.view.centerYAnchor)
+        ])
+
+        window?.rootViewController = viewController
+        window?.makeKeyAndVisible()
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {

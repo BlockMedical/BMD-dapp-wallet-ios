@@ -10,10 +10,9 @@ struct Config {
     }
 
     // Build 294 must run a Realm migration even when an installed BlockMed
-    // database already reports schema 77. Builds 292/293 exposed a model-schema
-    // mismatch at launch while retaining version 77, so Realm otherwise refuses
-    // to open the database before the migration block can reconcile it.
-    static let dbMigrationSchemaVersion: UInt64 = 78
+    // Build 295 adds guarded startup recovery after builds 292-294 demonstrated
+    // that an installed legacy Realm can still fail before migration completes.
+    static let dbMigrationSchemaVersion: UInt64 = 79
 
     static let current: Config = Config()
 
