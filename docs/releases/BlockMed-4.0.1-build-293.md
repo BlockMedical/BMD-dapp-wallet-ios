@@ -11,6 +11,12 @@ Build 293 replaces crash-affected build 292. It retains the BlockMed display nam
 
 The final App Review submission remains a manual owner action after TestFlight confirms that build 293 opens correctly on the affected iPhone.
 
+## App Store Connect replacement completed
+
+At approximately 9:13 PM PDT on July 13, 2026, the crash-affected build 292 submission was canceled and Apple marked the old submission `Removed`. Version 4.0.1 was unlocked, build 292 was detached, and build 293 was attached. The reviewer notes were updated to identify build 293 and explain the data-compatible Realm/module correction.
+
+Build 293 is now the sole item in a new App Review draft. App Store Connect shows version 4.0.1 as `Ready for Review`, the draft as `Ready for Review`, and the item as `4.0.1 (293)`. The final `Submit for Review` button was intentionally left untouched for the owner.
+
 ## Crash evidence and root cause
 
 App Store Connect supplied five TestFlight crash logs from build 292 on an iPhone 12 running iOS 26.5. Each log terminated on the main thread at:
@@ -57,7 +63,7 @@ The legacy Realm dependency is device-only, so the iOS simulator cannot reproduc
 2. Add build 293 to the internal TestFlight group if Apple does not carry the assignment forward automatically.
 3. On the affected iPhone, refresh TestFlight, install build 293, and launch BlockMed without deleting the existing app first. Testing as an in-place update is necessary to exercise the preserved Realm database.
 4. Confirm launch, wallet list display, background/foreground behavior, and a second cold launch.
-5. Remove build 292 from the 4.0.1 App Review submission if it is still attached, attach build 293, save, and review the submission summary.
-6. The owner performs the final App Review submission manually.
+5. Confirm the prepared App Review draft still lists only `4.0.1 (293)`.
+6. The owner selects `Submit for Review` manually.
 
 Do not delete the app before the TestFlight check: deletion would remove the existing Realm data and would not validate the upgrade-path fix.
