@@ -10,9 +10,9 @@ struct Config {
     }
 
     // Build 294 must run a Realm migration even when an installed BlockMed
-    // Build 295 adds guarded startup recovery after builds 292-294 demonstrated
-    // that an installed legacy Realm can still fail before migration completes.
-    static let dbMigrationSchemaVersion: UInt64 = 79
+    // Build 296 quarantines the legacy Realm before opening it after build 295's
+    // synchronous backup path remained blocked on the affected installation.
+    static let dbMigrationSchemaVersion: UInt64 = 80
 
     static let current: Config = Config()
 

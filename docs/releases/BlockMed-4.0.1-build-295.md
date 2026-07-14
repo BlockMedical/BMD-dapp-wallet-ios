@@ -7,7 +7,7 @@ Apple team: `AYN7MX9997`
 
 ## Status
 
-Builds 292, 293, and 294 all failed the in-place TestFlight launch check on the affected iPhone. Build 295 replaces the fatal Realm startup path with guarded recovery. Production Release compilation succeeded. TestFlight launch verification remains required before App Review submission.
+Build 295 did not crash, but its in-place TestFlight launch remained indefinitely on a white screen. Its synchronous copy-based Realm preservation blocked startup on the affected installation. Build 296 supersedes it; build 295 must not be submitted to App Review.
 
 ## Correction
 
@@ -32,7 +32,7 @@ The recreated shared Realm can lose local metadata stored only in that Realm, in
 - Swift module: `Trust`
 - Realm schema: `79`
 - Production Release compilation: successful
-- In-place TestFlight launch: pending owner verification
+- In-place TestFlight launch: **failed; indefinite white screen confirmed by owner**
 
 ## Required TestFlight test
 

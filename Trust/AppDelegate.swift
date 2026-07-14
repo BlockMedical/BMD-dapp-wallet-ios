@@ -34,15 +34,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     }
 
     private func openSharedRealm(configuration: Realm.Configuration) -> Realm? {
+        let recoveryKey = "BlockMedRealmRecovery296Completed"
+        if !UserDefaults.standard.bool(forKey: recoveryKey) {
+            guard quarantineRealmFiles(configuration: configuration) else { return nil }
+            UserDefaults.standard.set(true, forKey: recoveryKey)
+        }
+
         do {
             return try Realm(configuration: configuration)
         } catch {
-            guard preserveAndRemoveRealmFiles(configuration: configuration) else { return nil }
+            guard quarantineRealmFiles(configuration: configuration) else { return nil }
             return try? Realm(configuration: configuration)
         }
     }
 
-    private func preserveAndRemoveRealmFiles(configuration: Realm.Configuration) -> Bool {
+    private func quarantineRealmFiles(configuration: Realm.Configuration) -> Bool {
         guard let realmURL = configuration.fileURL else { return false }
 
         let fileManager = FileManager.default
@@ -63,13 +69,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         do {
             try fileManager.createDirectory(at: backupDirectory, withIntermediateDirectories: true)
             for sourceURL in candidates {
-                try fileManager.copyItem(
+                try fileManager.moveItem(
                     at: sourceURL,
                     to: backupDirectory.appendingPathComponent(sourceURL.lastPathComponent)
                 )
-            }
-            for sourceURL in candidates {
-                try fileManager.removeItem(at: sourceURL)
             }
             return true
         } catch {
