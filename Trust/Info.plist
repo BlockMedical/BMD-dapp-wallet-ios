@@ -8,6 +8,8 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleDisplayName</key>
+	<string>BlockMed</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -45,23 +47,33 @@
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
-		<true/>
+		<false/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>blockmed.ai</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<false/>
+				<key>NSExceptionMinimumTLSVersion</key>
+				<string>TLSv1.2</string>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>ONLY with the user’s permission, and ONLY the user can decide whether to share contents with others on our platform for purposes of data analysis in AI models. Without the user’s permission, the camera’s data will NOT be accessed by us nor any other 3rd party.</string>
+	<string>QR Scan</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Access your wallet</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>ONLY with the user’s permission, and ONLY the user can decide whether to share contents with others on our platform for purposes of data analysis in AI models. Without the user’s permission, the microphone’s data will NOT be accessed by us nor any other 3rd party.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>ONLY with the user’s permission, and ONLY the user can decide whether to share contents with others on our platform for purposes of data analysis in AI models. Without the user’s permission, the photo library’s data will NOT be accessed by us nor any other 3rd party.</string>
+	<string>Sending QR Code to your contacts</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>ONLY with the user’s permission, and ONLY the user can decide whether to share contents with others on our platform for purposes of data analysis in AI models. Without the user’s permission, the photo library’s data will NOT be accessed by us nor any other 3rd party.</string>
+	<string>Sending QR Code to your contacts</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
-		<string>armv7</string>
+		<string>arm64</string>
 	</array>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleLightContent</string>
@@ -94,11 +106,9 @@
 	<key>branch_key</key>
 	<dict>
 		<key>live</key>
-		<string>key_live_lfvIpVeI9TFWxPCqwU8rZnogFqhnzs4D</string>
+		<string>key_live_REPLACE_WITH_BLOCKMED_BRANCH_LIVE_KEY</string>
 		<key>test</key>
-		<string>key_test_odFMiPaHXUB4zNECuK28kdboCqgkAF3K</string>
+		<string>key_test_REPLACE_WITH_BLOCKMED_BRANCH_TEST_KEY</string>
 	</dict>
-	<key>com.apple.security.get-task-allow</key>
-	<true/>
 </dict>
 </plist>
