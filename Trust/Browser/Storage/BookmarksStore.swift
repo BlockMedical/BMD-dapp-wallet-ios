@@ -16,7 +16,7 @@ final class BookmarksStore {
     }
     func add(bookmarks: [Bookmark]) {
         realm.beginWrite()
-        realm.add(bookmarks, update: true)
+        realm.add(bookmarks, update: .all)
         try! realm.commitWrite()
     }
     func delete(bookmarks: [Bookmark]) {

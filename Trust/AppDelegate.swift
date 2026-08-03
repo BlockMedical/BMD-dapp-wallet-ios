@@ -14,24 +14,63 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     }()
     let urlNavigatorCoordinator = URLNavigatorCoordinator()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        NSLog("BM-DIAG A1 didFinishLaunching start")
         window = UIWindow(frame: UIScreen.main.bounds)
 
         let sharedMigration = SharedMigrationInitializer()
         sharedMigration.perform()
-        let realm = try! Realm(configuration: sharedMigration.config)
+        NSLog("BM-DIAG A2 shared migration config ready")
+        // Build 298: Realm files written by Realm 3.x (2018) fault with
+        // EXC_BAD_ACCESS after Realm 20's in-place format upgrade, so a new
+        // recovery generation quarantines every legacy file once and starts
+        // fresh. Wallet keys live in Documents/keystore + Keychain, not Realm.
+        guard let realm = RealmRecovery.open(
+            configuration: sharedMigration.config,
+            recoveryKey: "BlockMedRealmRecovery298.shared.realm"
+        ) else {
+            NSLog("BM-DIAG A2x shared realm recovery FAILED")
+            showStorageRecoveryError()
+            return true
+        }
+        NSLog("BM-DIAG A3 shared realm open")
         let walletStorage = WalletStorage(realm: realm)
-        let keystore = EtherKeystore(storage: walletStorage)
+        guard let keystore = try? EtherKeystore(storage: walletStorage) else {
+            NSLog("BM-DIAG A3x keystore init FAILED")
+            showStorageRecoveryError()
+            return true
+        }
+        NSLog("BM-DIAG A4 keystore ready")
 
         coordinator = AppCoordinator(window: window!, keystore: keystore, navigator: urlNavigatorCoordinator)
+        NSLog("BM-DIAG A5 AppCoordinator init done")
         coordinator.start()
-
-        if !UIApplication.shared.isProtectedDataAvailable {
-            fatalError()
-        }
+        NSLog("BM-DIAG A6 AppCoordinator started")
 
         protectionCoordinator.didFinishLaunchingWithOptions()
         urlNavigatorCoordinator.branch.didFinishLaunchingWithOptions(launchOptions: launchOptions)
+        NSLog("BM-DIAG A7 didFinishLaunching end")
         return true
+    }
+
+    private func showStorageRecoveryError() {
+        let viewController = UIViewController()
+        viewController.view.backgroundColor = .white
+
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.text = "BlockMed could not safely recover its local database. Your wallet files were not deleted. Please contact BlockMed support."
+        viewController.view.addSubview(label)
+
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor, constant: 24),
+            label.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor, constant: -24),
+            label.centerYAnchor.constraint(equalTo: viewController.view.centerYAnchor)
+        ])
+
+        window?.rootViewController = viewController
+        window?.makeKeyAndVisible()
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {

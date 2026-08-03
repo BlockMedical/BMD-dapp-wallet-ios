@@ -84,11 +84,7 @@ enum RPCServer {
         let urlString: String = {
             switch self {
             case .main:
-                if isDebug {
-                    return "https://ropsten.infura.io/llyrtzQ3YhkdESt2Fzrk"
-                } else {
-                    return "https://mainnet.infura.io/llyrtzQ3YhkdESt2Fzrk"
-                }
+                return "https://ethereum-rpc.publicnode.com"
             case .classic: return "https://etc-geth.0xinfra.com"
             case .callisto: return "https://clo-geth.0xinfra.com"
             case .poa: return "https://poa.infura.io"
@@ -102,15 +98,11 @@ enum RPCServer {
         let urlString: String = {
             switch self {
             case .main:
-                if isDebug {
-                    return "https://ropsten.trustwalletapp.com"
-                } else {
-                    return "https://api.trustwalletapp.com"
-                }
-            case .classic: return "https://classic.trustwalletapp.com"
-            case .callisto: return "https://callisto.trustwalletapp.com"
-            case .poa: return "https://poa.trustwalletapp.com"
-            case .gochain: return "https://gochain.trustwalletapp.com"
+                return "https://api.blockmed.ai"
+            case .classic: return "https://etc-geth.0xinfra.com"
+            case .callisto: return "https://clo-geth.0xinfra.com"
+            case .poa: return "https://poa.infura.io"
+            case .gochain: return "https://rpc.gochain.io"
             }
         }()
         return URL(string: urlString)!

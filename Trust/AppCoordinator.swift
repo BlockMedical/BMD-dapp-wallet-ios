@@ -38,20 +38,29 @@ class AppCoordinator: NSObject, Coordinator {
     }
 
     func start() {
+        NSLog("BM-DIAG C1 AppCoordinator.start")
         inializers()
+        NSLog("BM-DIAG C2 initializers done")
         migrations()
+        NSLog("BM-DIAG C3 migrations done")
         appTracker.start()
         handleNotifications()
         applyStyle()
         resetToWelcomeScreen()
+        NSLog("BM-DIAG C4 welcome screen reset done")
 
         if keystore.hasWallets {
+            NSLog("BM-DIAG C5 has wallets")
             let wallet = keystore.recentlyUsedWallet ?? keystore.wallets.first!
+            NSLog("BM-DIAG C6 wallet resolved, showing transactions")
             showTransactions(for: wallet)
+            NSLog("BM-DIAG C7 showTransactions done")
         } else {
+            NSLog("BM-DIAG C5 no wallets")
             resetToWelcomeScreen()
         }
         pushNotificationRegistrar.reRegister()
+        NSLog("BM-DIAG C8 push registrar done")
 
         navigator.branch.newEventClosure = { [weak self] event in
             guard let coordinator = self?.inCoordinator else { return false }

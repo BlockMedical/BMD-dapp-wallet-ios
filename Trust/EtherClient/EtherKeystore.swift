@@ -31,11 +31,11 @@ class EtherKeystore: Keystore {
         keysSubfolder: String = "/keystore",
         userDefaults: UserDefaults = UserDefaults.standard,
         storage: WalletStorage
-    ) {
+    ) throws {
         self.keysDirectory = URL(fileURLWithPath: datadir + keysSubfolder)
         self.keychain = keychain
         self.keychain.synchronizable = false
-        self.keyStore = try! KeyStore(keyDirectory: keysDirectory)
+        self.keyStore = try KeyStore(keyDirectory: keysDirectory)
         self.userDefaults = userDefaults
         self.storage = storage
     }
@@ -420,7 +420,7 @@ class EtherKeystore: Keystore {
                     object.balance = balance
                 }
             }
-            storage.realm.add(object, update: true)
+            storage.realm.add(object, update: .all)
         }
     }
 }

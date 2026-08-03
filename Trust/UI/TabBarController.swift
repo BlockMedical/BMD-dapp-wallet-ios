@@ -7,6 +7,10 @@ final class TabBarController: UITabBarController {
 
     private var previousController: UIViewController?
 
+    convenience init() {
+        self.init(nibName: nil, bundle: nil)
+    }
+
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nil, bundle: nil)
         delegate = self

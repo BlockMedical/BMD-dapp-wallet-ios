@@ -1,0 +1,3 @@
+[submodule "Vendor/TrezorCrypto"]
+	path = Vendor/TrezorCrypto
+	url = https://github.com/TrustWallet/trezor-crypto-ios.git

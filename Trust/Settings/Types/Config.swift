@@ -9,7 +9,10 @@ struct Config {
         static let currencyID = "currencyID"
     }
 
-    static let dbMigrationSchemaVersion: UInt64 = 77
+    // Build 294 must run a Realm migration even when an installed BlockMed
+    // Build 297 extends guarded recovery to every per-wallet Realm after the
+    // build 296 crash reached the unguarded account-specific database open.
+    static let dbMigrationSchemaVersion: UInt64 = 81
 
     static let current: Config = Config()
 

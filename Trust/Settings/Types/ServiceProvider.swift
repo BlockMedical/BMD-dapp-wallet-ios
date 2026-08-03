@@ -64,13 +64,13 @@ enum URLServiceProvider {
         case .discord:
             return "https://discord.gg/ahPWeHk"
         case .helpCenter:
-            return "https://help.trustwalletapp.com"
+            return "https://blockmed.ai/support"
         case .sourceCode:
             return "https://github.com/BlockMedical/BMD-dapp-wallet-ios"
         case .privacyPolicy:
-            return "https://github.com/BlockMedical/BMD-mobile_app_projects/Privacy"
+            return "https://blockmed.ai/privacy"
         case .termsOfService:
-            return "https://github.com/BlockMedical/BMD-mobile_app_projects/ToS"
+            return "https://blockmed.ai/terms"
         case .infura:
             return "https://infura.io/"
         case .dappsOpenSea:
